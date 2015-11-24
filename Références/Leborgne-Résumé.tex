@@ -3,12 +3,13 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage[english]{babel}
-\usepackage{amsmath, amsfonts, amssymb,dsfont}
+\usepackage{amsmath, amsfonts, amssymb, amsthm, dsfont}
 \usepackage{bbold}
 \usepackage{stmaryrd}
 \usepackage{mathrsfs}
 \usepackage{fancyhdr}
 \usepackage{color}
+\newtheorem{mydef}{Definition}
 
 \begin{document}
 \section{Results}
@@ -94,5 +95,35 @@ Two last problems arise from ICA : it is insensible to a permutation of sources 
 
 Let $p_y$ be the density of the estimated sources.
 \paragraph{Contrast function} The contrast function $\Psi$ should be invariant to permutations : $\Psi(P.p_y) = \psi(p_y)$, scale invariant: $\Psi(p_{\Delta y})$ for any $\Delta$diagonal, and finaly discriminant for $y$ with mutualy independant composants : $\Psi(p_{My}) \geq \Psi(p_y)$ with equality only when $M$ is of the form $\Delta P$.
-The mutual information is great for this problem, but hard to compute. Thus we use numerical approximation such as Gram-Charlier series. 
+The mutual information is great for this problem, but hard to compute. Thus we use numerical approximation such as Gram-Charlier series.
+
+\subsection{Neuronal approach}
+The idea is to try to find $y$ as $y = (I+W)^{-1}x$, where the diagonal of $W$ is 0, and where $w_{ij} = f(y_i)g(y_j)$ elsewhere. $f$ and $g$ are supposed to be odd functions, several choices are given in the quoted articles (P53).
+It is in the necessity to resort to statistics of higher order that lies the contribution of ICA.
+
+\subsection{Learning approach}
+Using the contrast function, we define the ACI problem as an optimization one, and an iterative learning of the separation matrix. This kind of algorithms are dependant to the mixing matrix. Thus we use invariant estimator : $\hat{A}_{MX_T}=M\hat{A}_{X_T}$ ($\hat{A}_{X_T}$ is the estimation of $A$ obtain with $T$ samples $X$. We can see that with such an estimator of the sources, we have : $\hat{s}(t) = (\hat{A}_{S_T})^{-1}$.
+We define the relative gradient :
+\begin{equation*}
+	W_{t+1} = (I - \lambda_t\nabla J_\psi(y_t))W_t
+\end{equation*}
+Where $\nabla J_\psi(y_t)$ is the gradient of a cost function depending on the contrast function $\psi$ computed on $y_t$. Then the serial update of the global source matrix $G =WA$ verifies :
+\begin{equation*}
+	G_{t+1} = (I - \lambda_t\nabla J_\psi(G_ts))G_t
+\end{equation*}
+\textbf{Results} For $\psi(y) = \sum\limits_{i=1}^n |y_i|^4$ and $J_\psi(y) = \mathds{E}[\psi(y)]$, we have $W_{t+1} = W_t -(y_t y_t^T-I+g(y_t)y_t^T- y_t g(y_t)^T)W_t$. \\
+See \textcolor{blue}{@inproceedings{cardoso1996independent,
+	  title={Independent component analysis, a survey of some algebraic methods},
+	    author={Cardoso, Jean-Frcsn{\c{c}}ois and Comon, Pierre},
+		  booktitle={Circuits and Systems, 1996. ISCAS'96., Connecting the World., 1996 IEEE International Symposium on},
+		    volume={2},
+			  pages={93--96},
+			    year={1996},
+				  organization={IEEE}
+			  }
+}
+
+\subsection{tensorial approach}
+The idea is to do tensorial diagonalization in order to optimize the contrast function, giving the \textit{JADE} algorithm, which follows the \textit{FOBI} one. The cumulant tensor of the $4$-th order is a 4D matrix containing all the 
+
 \end{document}
