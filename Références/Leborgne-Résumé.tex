@@ -92,6 +92,7 @@ With dimensional reduction techniques, we can always assume the the number of ob
 \\
 Two last problems arise from ICA : it is insensible to a permutation of sources and a change in amplitude of a source. We can modelize this by a multiplication by a diagonal matrix of weight $D$ for the amplitude and a multiplication by the inverse of a permutation matrix $P$.
 
-\paragraph{Contrast function}
-
+Let $p_y$ be the density of the estimated sources.
+\paragraph{Contrast function} The contrast function $\Psi$ should be invariant to permutations : $\Psi(P.p_y) = \psi(p_y)$, scale invariant: $\Psi(p_{\Delta y})$ for any $\Delta$diagonal, and finaly discriminant for $y$ with mutualy independant composants : $\Psi(p_{My}) \geq \Psi(p_y)$ with equality only when $M$ is of the form $\Delta P$.
+The mutual information is great for this problem, but hard to compute. Thus we use numerical approximation such as Gram-Charlier series.
 \end{document}
