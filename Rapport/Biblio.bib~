@@ -1,0 +1,169 @@
+@inproceedings{Liu12,
+  TITLE = {{Virtual Line Descriptor and Semi-Local Matching Method for Reliable Feature Correspondence}},
+  AUTHOR = {Liu, Zhe and Marlet, Renaud},
+  BOOKTITLE = {{British Machine Vision Conference 2012}},
+  ADDRESS = {United Kingdom},
+  PAGES = {16.1--16.11},
+  YEAR = {2012},
+  MONTH = Sep
+}
+
+@inproceedings{Enqvist11,
+  added-at = {2012-01-20T00:00:00.000+0100},
+  author = {Enqvist, Olof and Kahl, Fredrik and Olsson, Carl},
+  biburl = {http://www.bibsonomy.org/bibtex/2c5f5053ffc272f6a8d827fe2daee10db/dblp},
+  booktitle = {ICCV Workshops},
+  ee = {http://dx.doi.org/10.1109/ICCVW.2011.6130252},
+  interhash = {1435d37da0f83f2e61591561d776a524},
+  intrahash = {c5f5053ffc272f6a8d827fe2daee10db},
+  isbn = {978-1-4673-0062-9},
+  keywords = {dblp},
+  pages = {264-271},
+  publisher = {IEEE},
+  timestamp = {2012-01-21T11:33:53.000+0100},
+  title = {Non-sequential structure from motion.},
+  year = 2011
+}
+
+
+@inproceedings{Zach10,
+  added-at = {2010-11-02T00:00:00.000+0100},
+  author = {Zach, Christopher and Klopschitz, Manfred and Pollefeys, Manfred},
+  biburl = {http://www.bibsonomy.org/bibtex/2c653b7e21ee3a6e179fca78fe0fb3046/dblp},
+  booktitle = {CVPR},
+  ee = {http://dx.doi.org/10.1109/CVPR.2010.5539801},
+  interhash = {680da0ba2625ddf4c1c2814aacd98b6d},
+  intrahash = {c653b7e21ee3a6e179fca78fe0fb3046},
+  keywords = {dblp},
+  pages = {1426-1433},
+  publisher = {IEEE},
+  timestamp = {2010-11-03T11:32:13.000+0100},
+  title = {Disambiguating visual relations using loop constraints.},
+  year = 2010
+}
+
+@inproceedings{Moulon13,
+  TITLE = {Global Fusion of Relative Motions for Robust, Accurate and Scalable Structure from Motion},
+  AUTHOR = {Moulon, Pierre and Monasse, Pascal and Marlet, Renaud},
+  BOOKTITLE = {ICCV Workshops},
+  ADDRESS = {Sydney, Australia},
+  PAGES = {to appear},
+  YEAR = {2013},
+  MONTH = Dec,
+  KEYWORDS = {calibration ; structure-from-motion ; robust estimation},
+  HAL_ID = {hal-00873504},
+  HAL_VERSION = {v1}
+}
+
+@InProceedings{Arrigoni15,
+  author = 	 {Arrigoni, Federica and Rossi, Beatrice and Fusiello, Andrea},
+  title = 	 {On Computing the Translations Norm in the Epipolar Graph}
+}
+
+@InProceedings{Cui15,
+  author = 	 {Cui, Zhaopeng and Jiang, Nianjuan and Tan, Ping},
+  title = 	 {Linear Global Transformation Estimation from Feature Tracks}
+}
+
+@inproceedings{Arie12,
+  added-at = {2012-12-12T00:00:00.000+0100},
+  author = {Arie-Nachimson, Mica and Kovalsky, Shahar Z. and Kemelmacher-Shlizerman, Ira and Singer, Amit and Basri, Ronen},
+  booktitle = {3DIMPVT},
+  isbn = {978-1-4673-4470-8},
+  keywords = {dblp},
+  pages = {81-88},
+  publisher = {IEEE},
+  timestamp = {2012-12-13T11:35:53.000+0100},
+  title = {Global Motion Estimation from Point Matches.},
+  year = 2012
+}
+
+@article{Sharp04,
+author = {Sharp, Gregory C. and Lee, Sang Wook and Wehe, David K.},
+title = {Multiview Registration of 3D Scenes by Minimizing Error between Coordinate Frames},
+journal ={IEEE Transactions on Pattern Analysis and Machine Intelligence},
+volume = {26},
+number = {8},
+issn = {0162-8828},
+year = {2004},
+pages = {1037-1050},
+doi = {http://doi.ieeecomputersociety.org/10.1109/TPAMI.2004.49},
+publisher = {IEEE Computer Society},
+address = {Los Alamitos, CA, USA}
+}
+
+@book{Berge62,
+  title={The Theory of Graphs and Its Applications},
+  author={Berge, C.},
+  lccn={62004656},
+  year={1962},
+  publisher={Methuen}
+}
+
+@article{Nister04,
+ author = {Nist{\'e}r, David},
+ title = {An Efficient Solution to the Five-Point Relative Pose Problem},
+ journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+ volume = {26},
+ number = {6},
+ month = jun,
+ year = {2004},
+ issn = {0162-8828},
+ pages = {756--777},
+ numpages = {22},
+ doi = {10.1109/TPAMI.2004.17},
+ acmid = {987623},
+ publisher = {IEEE Computer Society},
+ address = {Washington, DC, USA}
+} 
+
+@misc{ OpenMVG,
+    title = {Open{MVG} (open Multiple View Geometry)},
+    author = {Moulon, Pierre and Monasse,Pascal and Marlet, Renaud},
+    year = 2014,
+    url = {https://github.com/openMVG/openMVG}
+}
+
+@inproceedings{Govindu06,
+  added-at = {2006-01-23T00:00:00.000+0100},
+  author = {Govindu, Venu Madhav},
+  booktitle = {ACCV (2)},
+  date = {2006-01-23},
+  editor = {Narayanan, P. J. and Nayar, Shree K. and Shum, Heung-Yeung},
+  pages = {457-466},
+  publisher = {Springer},
+  series = {Lecture Notes in Computer Science},
+  timestamp = {2008-05-07T11:42:46.000+0200},
+  title = {Robustness in Motion Averaging.},
+  volume = 3852,
+  year = 2006
+}
+
+@INPROCEEDINGS{Olsson11,
+    author = {Carl Olsson and Olof Enqvist},
+    title = {Stable structure from motion for unordered image collections},
+    booktitle = {in Proceedings of the 17th Scandinavian conference on Image analysis, ser. SCIA’11},
+    year = {2011},
+    pages = {524--535},
+    publisher = {Springer-Verlag}
+}
+
+@article{Moisan12,
+    title   = {Automatic Homographic Registration of a Pair of Images, with A Contrario Elimination of Outliers},
+    author  = {Moisan, Lionel and Moulon, Pierre and Monasse, Pascal},
+    journal = {Image Processing On Line},
+    volume  = {2},
+    pages   = {56--73},
+    year    = {2012},
+    doi     = {10.5201/ipol.2012.mmm-oh},
+}
+
+@inproceedings{Strecha08,
+  author = {Strecha, Christoph and von Hansen, Wolfgang and Gool, Luc J. Van and Fua, Pascal and Thoennessen, Ulrich},
+  booktitle = {CVPR},
+  ee = {http://doi.ieeecomputersociety.org/10.1109/CVPR.2008.4587706},
+  publisher = {IEEE Computer Society},
+  timestamp = {2015-04-28T16:36:53.000+0200},
+  title = {On benchmarking camera calibration and multi-view stereo for high resolution imagery.},
+  year = 2008
+}

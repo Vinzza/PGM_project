@@ -1,0 +1,11 @@
+all:
+	pdflatex Rapport
+	bibtex Rapport
+	pdflatex Rapport
+	pdflatex Rapport
+
+one:
+	pdflatex Rapport
+
+clean:
+	rm Rapport.aux Rapport.bbl Rapport.blg Rapport.dvi Rapport.log Rapport.toc
