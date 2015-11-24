@@ -7,13 +7,91 @@
 \usepackage{bbold}
 \usepackage{stmaryrd}
 \usepackage{mathrsfs}
+\usepackage{fancyhdr}
+\usepackage{color}
 
 \begin{document}
-\section{Notations, results}
+\section{Results}
+\subsection{Notations}
 Cocktail party problem :
 \begin{equation*}
 	S \ \text{sources} \Rightarrow \mathcal{F}(X) \ \text{observations} \Rightarrow \mathcal{H}(y) \ \text{estimations}
 \end{equation*}
-Where $\mathcal{F}$ is the mixing function, and $\mathcal{H}$ is the separating function. $S = (s_1,\cdots,s_n)^T$ $X$ is a random variable 
+Where $\mathcal{F}$ is the mixing function, and $\mathcal{H}$ is the separating function. $S = (s_1,\cdots,s_p)^T$ is the sources in $\mathds{R}^p$, $X$ is a random variable in $\mathds{R}^n$. We assume $p=n$.
+\\
+Linear case :
+\begin{equation*}
+	y = WX = WAS
+\end{equation*}
+We note $G = WA$
+We consider the times series as matrices :
+\begin{equation*}
+X_T=\begin{pmatrix}
+x_1(1)& \cdots & x_1(T) \\
+\vdots & & \vdots \\
+x_n(1)& \cdots & x_n(T) \\
+\end{pmatrix}
+\end{equation*}
+We note the $i$-th rox of a matrix $W$ as $w_i$.
+
+\subsection{PCA}
+We note $V_x$ the covariance matrix of $x$, and
+\begin{equation*}
+	V_x = FDF^T
+\end{equation*}
+its diagonal reduction in an orthonormal basis.
+\textbf{Result} If we denote $w_1$ the eigen vector corresponding to the greatest eigen value of $V_x$, then the data projection on $w_1$ is called the \textit{principal component}, and it is the one coding the most variance : $w_1 = \underset{|w|=1}{\text{argmax }}\mathds{E}[(w^Tx)^2]$.
+We can compute $w$ using methods described in \textcolor{blue}{@article{oja1992principal,
+title={Principal components, minor components, and linear neural networks},
+author={Oja, Erkki},
+journal={Neural Networks},
+volume={5},
+number={6},
+pages={927--935},
+year={1992},
+publisher={Elsevier}
+}
+}
+\\
+We then have $W_{PCA}=D^{-1/2}F^T$. We call this operation \textit{spectral whitening} of the data. This basicly nullifies the data variances.
+
+We can also have $W_{ZCA} = \mathds{E}[x^Tx]^{-1/2}$. Then the covariance matrix of $y = W_{ZCA}x$ is diagonal and our datas are uncorrelated. 
+\subsection{ICA}
+The major hypothesis of ICA is the statistical independance of our data. In the second hypothesis according to which the sources are linearly mixed, the first hypothesis is sufficient to provide a good source separation. \\
+let $V_x$ be the covariance matrix of $x$. We factorize $V_x$ as:
+\begin{equation*}
+	V_x = AD^2A^T
+\end{equation*}
+Where $D \preccurlyeq 0$ is diagonal, and $A \in \mathcal{M}_{pn}$ is of rank $n$. We can put observations as $x = As$, where $D^2$ is the covariance matrix of $y$, and where $s$ is a vector of $\mathds{R}^n$ which is maximizing a certain \textit{contrast function} or \textit{independance measure} which can be found in \textcolor{blue}{@article{comon1994independent,
+  title={Independent component analysis, a new concept?},
+    author={Comon, Pierre},
+  journal={Signal processing},
+    volume={36},
+  number={3},
+    pages={287--314},
+  year={1994},
+    publisher={Elsevier}
+}}
+\\
+Optimization algorithm found in \textcolor{blue}{@article{hyvarinen1999survey,
+	  title={Survey on independent component analysis},
+	    author={Hyvarinen, Aapo},
+		  journal={Neural computing surveys},
+		    volume={2},
+			  number={4},
+			    pages={94--128},
+				  year={1999}
+			  }}
+For ICA we need the following conditions :
+\begin{itemize}
+	\item At most one source can follow a gaussian distribution
+	\item the rank of $A$ must be the number of sources
+\end{itemize}
+First condition is due to the fact that a gaussian distribution as all this moment of order greater than 2 equal to 0. Thus the independance hypothesis is just a simple decorrelation such as the one done in PCA. The second condition can be lifted as shown in several papers (P51 du cours).
+With dimensional reduction techniques, we can always assume the the number of observations is equal to the number of sources (which implies tha $A$ is squared). 
+\\
+Two last problems arise from ICA : it is insensible to a permutation of sources and a change in amplitude of a source. We can modelize this by a multiplication by a diagonal matrix of weight $D$ for the amplitude and a multiplication by the inverse of a permutation matrix $P$.
+
+\paragraph{Contrast function}
 
 \end{document}
