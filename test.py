@@ -1,4 +1,4 @@
 #! /usr/bin/env python
 # -*- encoding:utf-8 -*-
 
-print "hello motherfucker !"
+print "goodbye world !"
