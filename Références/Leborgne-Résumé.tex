@@ -122,8 +122,38 @@ See \textcolor{blue}{@inproceedings{cardoso1996independent,
 				  organization={IEEE}
 			  }
 }
+This idea is at the base of the HJ algorithm.
+\subsection{Tensorial approach}
+The idea is to do tensorial diagonalization in order to optimize the contrast function, giving the \textit{JADE} algorithm, which follows the \textit{FOBI} one. The cumulant tensor of the $4$-th order is a 4D matrix containing all the 4-th order cumulant :$N =(Cum(x_i,x_j,x_k,x_l))_{i,j,k,l}$. We can also view $N$ as a linear application of $\mathcal{M}_{nn}$ to $\mathcal{M}_{nn}$, and see $N$ as a matrix of size $n^2 \times n^2$.
+The aim of this algorithm is then to diagonalize $N$ which, as $N$ is normalized, is equivalent to try to maximize the diagonal elements of $N$. It can be shown that the contrast function is then $c(x) =\sum\limits_{i,k,l} |Cum(x_i,x_i*,x_k,x_l*)|^2$.\\
+This algorithm is of the monstruous complexity of $\mathcal{O}(n^4)$, and thus unusable for real data\dots
 
-\subsection{tensorial approach}
-The idea is to do tensorial diagonalization in order to optimize the contrast function, giving the \textit{JADE} algorithm, which follows the \textit{FOBI} one. The cumulant tensor of the $4$-th order is a 4D matrix containing all the 
+\subsection{Maximum likelihood}
+Likelihood of the observations given our mixing matrix :
+\begin{equation*}
+	p_{x|A}(y) = \int p_s(A^{-1}u)|\det(A)|^{-1}du
+\end{equation*}
+If we note $\Phi_i = [\log(p_{s_i})]'$, then the maximum likelihood estimator is obtained by solving :
+\begin{equation*}
+	\hat{\mathds{E}}[\Phi_i(e_i^TA^{-1}x)e_j^TA^{-1}x] = 0
+\end{equation*}
+With $\hat{s}_i= e_i^TA^{-1}x$ the estimation of our sources, we get the simple condition :
+\begin{equation*}
+	\hat{\mathds{E}}[\Phi_i(\hat{s}_i)\hat{s}_j] = 0
+\end{equation*}
+This becomes an optimization problem, we can use what we want to solve it\dots
+This approach as been proved to be equivalent to the \textit{Infomax} method by Cardoso.
 
+
+\subsection{ICA as non linear PCA}
+We can derive an andaptation rule for neurons network learning :
+\begin{equation*}
+	W_{t+1} = W_t +\lambda_t [x_t g_1(e_t^T)W_t G_2(x_t^TW_t)+ g_1(e_t)f_2(x_t^TW_t)]
+\end{equation*}
+Where $f_1,f_2$ are two non-linear functions, $g_1 = f_1',g_2=f_2'$ , $G_2 = \text{diag}(g_2(.))$ and $e_t = x_t-W_tg_2(W_t^Tx_t)$
+For stability reasons, $g_1$ needs to be a impaire croissante function. With $f_1$ quadratic and $f_2$ lineal, this is the standard PCA.\\
+With $W$ orthogonal and $y=Wx$, we have :
+\begin{equation*}
+	\| x-W^Tg(Wx) \|^2 = \sum\limits_{i=1}^n [y_i-g(y_i)]^2
+\end{equation*}
 \end{document}
