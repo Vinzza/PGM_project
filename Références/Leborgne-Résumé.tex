@@ -9,6 +9,7 @@
 \usepackage{mathrsfs}
 \usepackage{fancyhdr}
 \usepackage{color}
+\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
 \newtheorem{mydef}{Definition}
 
 \begin{document}
@@ -57,7 +58,7 @@ publisher={Elsevier}
 We then have $W_{PCA}=D^{-1/2}F^T$. We call this operation \textit{spectral whitening} of the data. This basicly nullifies the data variances.
 
 We can also have $W_{ZCA} = \mathds{E}[x^Tx]^{-1/2}$. Then the covariance matrix of $y = W_{ZCA}x$ is diagonal and our datas are uncorrelated. 
-\subsection{ICA}
+\section{ICA}
 The major hypothesis of ICA is the statistical independance of our data. In the second hypothesis according to which the sources are linearly mixed, the first hypothesis is sufficient to provide a good source separation. \\
 let $V_x$ be the covariance matrix of $x$. We factorize $V_x$ as:
 \begin{equation*}
@@ -102,6 +103,7 @@ The idea is to try to find $y$ as $y = (I+W)^{-1}x$, where the diagonal of $W$ i
 It is in the necessity to resort to statistics of higher order that lies the contribution of ICA.
 
 \subsection{Learning approach}
+\label{LA}
 Using the contrast function, we define the ACI problem as an optimization one, and an iterative learning of the separation matrix. This kind of algorithms are dependant to the mixing matrix. Thus we use invariant estimator : $\hat{A}_{MX_T}=M\hat{A}_{X_T}$ ($\hat{A}_{X_T}$ is the estimation of $A$ obtain with $T$ samples $X$. We can see that with such an estimator of the sources, we have : $\hat{s}(t) = (\hat{A}_{S_T})^{-1}$.
 We define the relative gradient :
 \begin{equation*}
@@ -124,6 +126,7 @@ See \textcolor{blue}{@inproceedings{cardoso1996independent,
 }
 This idea is at the base of the HJ algorithm.
 \subsection{Tensorial approach}
+\label{TA}
 The idea is to do tensorial diagonalization in order to optimize the contrast function, giving the \textit{JADE} algorithm, which follows the \textit{FOBI} one. The cumulant tensor of the $4$-th order is a 4D matrix containing all the 4-th order cumulant :$N =(Cum(x_i,x_j,x_k,x_l))_{i,j,k,l}$. We can also view $N$ as a linear application of $\mathcal{M}_{nn}$ to $\mathcal{M}_{nn}$, and see $N$ as a matrix of size $n^2 \times n^2$.
 The aim of this algorithm is then to diagonalize $N$ which, as $N$ is normalized, is equivalent to try to maximize the diagonal elements of $N$. It can be shown that the contrast function is then $c(x) =\sum\limits_{i,k,l} |Cum(x_i,x_i*,x_k,x_l*)|^2$.\\
 This algorithm is of the monstruous complexity of $\mathcal{O}(n^4)$, and thus unusable for real data\dots
@@ -156,4 +159,38 @@ With $W$ orthogonal and $y=Wx$, we have :
 \begin{equation*}
 	\| x-W^Tg(Wx) \|^2 = \sum\limits_{i=1}^n [y_i-g(y_i)]^2
 \end{equation*}
+\subsection{Infomax}
+Theorticaly equivalent to the learning approach. From neurons network theory :
+\begin{equation*}
+	\frac{\partial I}{\partial w}(x,y) = \frac{\partial H}{\partial w}(y)
+\end{equation*}
+Where I(x,y) is the mutual information between inputs $x$ and outputs $y$ of the neurones network, $H(y)$ is the ouput entropy and $w$ the network parameters.
+Thus the update rule :
+\begin{equation*}
+	\Delta W = (W^{-T}) + \frac{\partial}{\partial w} \ln \prod\limits_i |y'_i|
+\end{equation*}
+
+This rule can be upgraded for faster convergence and better results into:
+\begin{equation*}
+	\Delta W = [I -K \tanh(y)y^T-yy^T]W
+\end{equation*}
+Where K is a diagonal matrix with 1 for an over gaussian source, and -1 for a sub gaussian one.
+\subsection{Non gaussianity measure}
+Accordiang to CLT, a sum of independant variables converges toward a gaussiand distribution. Thus we try to have estimations as much non-gaussian as possible. A robust measure of non-gaussianity is the negentropy : $J(y) = H(y_{gauss})-H(y)$ where H is the classical entropy, and $y_{gauss}$ is a gaussian variable of same mean and variance as y. To obtain even more robust estimators, we approach negentropy by : $J(y) \propto [\mathds{E}[G(y)]-\mathds{E}[G(\mu)]^2$.
+Where G is a non quadratic function. The algorithm (which is based on the last section update rule) needs uncorrelated and centered data at each iteration, thus an orthogonalization step.\\
+
+The orthonormalization step can be done either column by column (Deflation) or all matrix directly (symmetric).
+
+\section{Algorithms}
+\subsection{HJ}
+Described in section \ref{LA}. One matlab version found.
+\subsection{CoM1-2}
+Using contrast functions and cumulants. Introuvable\dots
+\subsection{Jade}
+Described in section \ref{TA}. One matlab version (Cardoso's ma gueule) found.
+\subsection{Fast-ICA}
+Described the last four sections. Available in matlab and python packages.
+\subsection{BS}
+Based on infomax and neurones networks. Extract matlab from \\\url{ftp://ftp.cnl.salk.edu/pub/tony/sep96.public} .
 \end{document}
+
