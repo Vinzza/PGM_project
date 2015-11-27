@@ -36,10 +36,71 @@
 \maketitle
 
 \section{Results}
+\paragraph{ICA}
+Assume that we observe $n$ linear mixtures $x_1, ...,x_n$ of n independent components:
+\begin{align*}
+x_j = a_{j1}s_1+a_{j2}s_2+...+a_{jn}s_n, \forall j
+\end{align*}
+where all $x_j$, $s_j$ are random variables with zero mean and the $s_j$ are statistically independent. Equivalently:
+\begin{align*}
+x = As
+\end{align*}
+Given the entry $x$, the goal is to estimate both $A$ and $s$.
 
-\section{Algorithms}
+\paragraph{Constraint} The vector $s$ must be \textit{nongaussian}. One can prove that the distribution of any orthogonal transformation of the Gaussian $(x_1,x_2)$
+has exactly the same distribution as $(x_1,x_2)$, and that $x_1$ and $x_2$ are independent. Thus, in the case of Gaussian variables, we can only estimate the ICA model up to an orthogonal transformation. In other words, the matrix A is not identifiable for Gaussian independent components.
+
+\paragraph{Notations} $y = w^Tx$ and $z=A^Tw$ such that: $y = z^Ts$
+
+\paragraph{Idea} Use the Central Limit Theorem to determine $w$ so that it would
+equal one of the rows of the inverse of $A$. Choose $w$ such that it corresponds to a $z$ with only one nonzero coordinate. Consequently, $z^Ts$ is equal to one of the wanted components up to a multiplicative sign.
+
+\paragraph{Kurtosis} This quantity defined for a zero-mean random variable with unit variance by:
+\begin{align*}
+kurt(y) &= \mathbb{E}(y^4)-3(\mathbb{E}(y^2))^2\\
+\end{align*}
+is commonly used to measure nongaussianity as is it zero for a Gaussian variable and often nonzero for a nongaussian variable. Besides, for independent variables:
+\begin{align*}
+kurt(x_1+x_2) &= kurt(x_1) + kurt(x_2)\\
+kurt(\alpha x_1) &= \alpha^4 kurt(x_1)
+\end{align*}
+
+\paragraph{Problem formulation}
+\begin{align*}
+max&imize \enspace |kurt(y)|\\
+&st \enspace y = z^Ts\\
+an&d \enspace Var(y)=1
+\end{align*}
+The drawback is that the kurtosis measure is not robust.
+
+\paragraph{Negentropy} Another measure of the nongaussianity of a random variable is its negentropy:
+\begin{align*}
+J(y) = H(y_{gauss})-H(y)
+\end{align*}
+Where $y_{gauss}$ is the Gaussian random variable with the same covariance matrix than $y$. The entropy has the property of being maximal for a Gaussian variable among all variables of equal variance. Thus, the negentropy is zero for a Gaussian variable and nonnegative for other variables. Besides, negentropy is invariant for invertible linear transformations. in this form, the problem consists in maximizing the negentropy.
+
+\paragraph{Preprocessing for ICA}
+\begin{itemize}
+\item Centering
+\item Whitening
+\item Dimension reduction (PCA)
+\item Band-Pass filtering
+\end{itemize}
+
+\section{FastICA}
+\paragraph{Idea} Use Gram-Schmidt-like decorrelation to compute independent $w_i$.
+\paragraph{Algorithm} Assuming that the data is whitened, initialize $W$ at random and compute for any norm different of the Frobenius norm:
+\begin{enumerate}
+\item $W=W/\sqrt{||WW^T||}$
+\item repeat until convergence: $W=\frac{3}{2}W-\frac{1}{2}WW^TW$
+\end{enumerate}
 
 \section{Applications}
+\begin{itemize}
+\item Separation of Artifacts in MEG Data
+\item Finding Hidden Factors in Financial Data (data available on the challenges website)
+\item Reducing Noise in Natural Images
+\end{itemize}
  
 \end{document}
 
