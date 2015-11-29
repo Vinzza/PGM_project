@@ -19,16 +19,192 @@
 %                                DEBUT DOCUMENT                                %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
 
+\newcommand{\Kl}[3][]{\mathrm K_{#1}\!\zp{#2\:\|\:#3}}
+\newcommand{\zZ}[2]{\mathrm #1\!\zp{#2}}
+\newcommand{\zD}{\mathcal}
+\newcommand{\Ng}[2]{\mathcal{N}\zp{#1,\:#2}}
+
 \begin{document} 
 
 \zztitre
 
+\section{Définitions préalables et propriétés}
+
+\subsection{Définitions}
+Pour une variable aléatoire $Y\in\zR^n$, on notera $Y_i$ sa $i$-ième composante.
+Jusqu'à la fin, pour $X$ une variable aléatoire à valeur dans $\zR^n$, on notera $P\zp{X}$ sa densité de probabilité et $\Sigma_X$ sa matrice de covariance.
+\znl
+
+On posera aussi $\zD G$ l'ensemble des distributions gaussiennes, $\zD P$ l'ensemble des distributions \zguill{ produits } (indiquant une indépendance des composantes). Pour une distribution $P$, on définira alors $P^{\zD G}$, $P^{\zD P}$ et $P^{\zD G \wedge \zD P}$ les distributions respectivement gaussiennes, produit et gaussienne produit minimisant la valeur de leur divergence par rapport à $P$. On verra ces distributions comme des projections sur ces différents espaces.\znl
+
+On définit alors les grandeurs suivantes.\znl
+
+
+La \textbf{divergence de Kullback--Leibler} de la distribution $Q$ par rapport à $P$ :
+\begin{equation}
+  \Kl PQ = \int_{\zR^n} P(x) \log\frac{P(x)}{Q(x)} \zdx x.
+\end{equation}
+
+L'\textbf{entropie} de $Y$ :\begin{equation}
+  \zZ HP = - \int_{\zR^n} P(x)\log P(x) \zdx x.
+\end{equation}
+
+L'\textbf{information mutuelle}, que l'on prendra pour mesure d'indépendance :
+\begin{equation}
+  \zZ IY = \Kl {\zpbig2 P(Y)}{\Pi_i P_i(Y_i)} = \Kl {\zpbig2 P(Y)}{P(Y)^{\zD P}}.
+\end{equation}
+
+La \textbf{Non-Gaussianité} de $Y$ :
+\begin{equation}
+  \zZ GY = \Kl{Y}{\Ng{\zesp Y}{\Sigma_Y}\zpbig2} = \Kl {\zpbig2 P(Y)}{P(Y)^{\zD G}}.
+\end{equation}
+
+La \textbf{Corrélation} de $Y$ :
+\begin{equation}\begin{array}{rcl}
+  \zZ CY &=& \displaystyle\Kl{\Ng{\zesp Y}{\Sigma_Y}\zpbig2}{\Ng{\zesp Y}{\mathrm{Diag}\:\Sigma_Y}}\\
+  &=&\Kl{\zpbig2 P(Y)^{\zD G}}{P(Y)^{\zD P\wedge\zD G}}\\
+  &=& \displaystyle\frac 12\log\frac{\det\zp{\mathrm{Diag}(\Sigma_Y)}}{\det\zp{\Sigma_Y}}.
+\end{array}\end{equation}
+
+Dans la suite, on se permettra, pour éviter des notation trop lourde, d'écrire l'information mutuelle, la non-gaussianité et la corrélation d'une distribution.
+
+%% --------- ---- -  -             PROPRIETES             -  - ---- --------- %%
+
+\subsection{Propriétés}
+
+Par propriété, si $\Kl PQ=0$, les distributions $P$ et $Q$  sont égales sur les espaces de mesures non nulles.
+Remarquons la propriété suivante, si $T$ est une matrice inversible et $\mu$ est un vecteur quelconque, on a :
+\begin{equation}
+  \Kl{\zpbig2P(Y)}{P(Z)} = \Kl{\zpbig2P(\mu+TY)}{P(\mu+TZ)}.
+\end{equation}\znl
+
+Par définition, $\zZ IY = 0$, on aura $P(Y) = \prod_i P_i(Y_i)$ et les composantes de $Y$ seront indépendantes.
+On a la relation, d'où découle l'égalité de la définition de l'indépendance mutuelle \[
+\Kl{P(Y)}{\zpbig2\prod_iQ_i} = \zZ IY + \sum_i \Kl{\zpbig2P(Y_i)}{Q_i}.
+\]
+
+Si $T$ est une matrice inversible et $\mu$ est un vecteur quelconque, on a l'égalité suivante :
+\begin{equation}
+  \zZ G{\zpbig2P(Y)} = \zZ G{\zpbig2P(\mu+TY)}.
+\end{equation}
+
+%% --------- ---- -  -             RELATIONS              -  - ---- --------- %%
+
+\subsection{Relations}
+
+On a les relations suivantes, découlant de la définition de la divergence de Kullback--Leibler ou du \zguill{théorème de Pythagore} :
+\begin{equation}
+  \zZ IY = \sum_i \zZ H{P_i} - \zZ H{P},
+\end{equation}
+\[
+\Kl{\zpbig2 P(Y)}{P(Y)^{\zD P\wedge\zD G}} = \zZ IY + \sum_i \zZ G{Y_i},
+\]
+\[
+\Kl{\zpbig2 P(Y)}{P(Y)^{\zD P\wedge\zD G}} = \zZ GY + \zZ CY,
+\]
+
+\begin{equation}
+        \zfbox{1pt}{5pt}{$\displaystyle\kern1cm\zZ IY + \sum_i\zZ G{Y_i} = \zZ GY + \zZ CY.\kern1cm$}\label{eqn:1}
+\end{equation}
+
+Cette dernière relation nous donne que minimiser la grandeur $I\zp{Y}$ revient à minimiser $\zZ CY - \sum_i\zZ G{Y_i}$, la Non-gaussianité de $Y$ étant indépendante ici du changement de référentiel que l'on recherche.
+
+
 
 %% ------- -- -- -  -                                      -  - -- -- --------%%
-%---- -- -  -                     Introduction                     -  - -- ----%
+%---- -- -  -                      Géométrie                       -  - -- ----%
 %%-------- -- -- -  -                                      -  - -- -- ------- %%
 
+\section{Géométrie}
+\subsection{Théorème de Pythagore}
+On considère ici les deux variétés $\zD P$ et $\zD G$, comme définies précédemment. Remarquons que ces deux variétés sont toutes les deux des familles exponentielles et ainsi, elles vérifient toutes les deux la propriétés suivantes. Si on y prend deux distributions $p$ et $q$, alors toutes les distributions du segment exponentiel qu'elles définissent y appartiennent aussi, le segment exponentiel étant défini par \[
+w_{\alpha}(x) = p(x)^{1-\alpha}q(x)^\alpha\zexp{-\psi(\alpha)},
+\]
+avec $\psi(\alpha)$ un coefficient de normalisation.
 
+On peut montrer, par ailleurs, que la famille exponentielle $\zD G$ est de dimension\linebreak$L_{\zD G}=n + \frac 12 n(n+1)$ dans le sens où on peut trouver une mesure de référence $g(x)$ (non nécessairement une distribution) et une \zguill{base} de $L$ fonctions scalaire $S_l(x)$ telle que toute distribution s'écrive sous la forme :\[
+p_\alpha(x) = g(x)\exp\!\zp{\sum_l \alpha_lS_l(x) - \psi(\alpha)},\]
+pour $\psi(\alpha)$ une fonction de normalisation et $\alpha\in\zR^L$.
+\znl
+
+Remarquons que dans le cas de $\zD G$, on peut prendre comme \zguill{base} les fonctions $y\mapsto y_i$ et $y\mapsto y_iy_j$ pour $i$ et $j$ dans $\zp[i]{1,n}$.
+\znl
+
+Le Théorème de Pythagore s'énonce de la manière suivante :\\
+Si $\zD E$ est une famille exponentielle et $P$ est une distribution quelconque, il existe alors une unique distribution $P^{\zD E}$ de $\zD E$ vérifiant :\[
+\forall Q\in\zD E,\qquad\Kl PQ = \Kl P{P^{\zD E}} + \Kl {P^{\zD E}}Q.
+\]
+On peut voir $P^{\zD E}$ comme la \zguill{projection orthogonale} de $P$ sur la famille $\zD E$. Par positivité de la divergence de Kullback-Leibler, on peut voir $P^{\zD E}$ comme la distribution de $\zD E$ minimisant sa divergence par rapport à $P$.\znl
+
+On peut alors remarquer que l'équation \ref{eqn:1} peut être interprété comme suit : on obtient le même résultat en projetant $P$ d'abord sur $\zD G$ puis sur $\zD P\wedge\zD G$ ou d'abord sur $\zD P$ puis sur $\zD P\wedge\zD G$.
+Remarquons que tous les termes de cette équations sont invariants par translation et changement d'échelle indépendamment sur les différentes coordonnées. L'espace $\zD G\wedge\zD P$ étant de dimension $2n$ (chaque coordonnée correspond à une gaussienne avec $2$ paramètres), qui correspond exactement à la dimension de l'ensemble des transformations précédentes, tout se ramène exactement au cas d'une seule distribution dans $\zD G\wedge\zD P$.
+
+\subsection{Structures marginales}
+
+On va ici s'intéresser à l'espace \zguill{union} des deux variétés $\zD G$ et $\zD P$ que l'on notera $\zD G\vee\zD P$ qui correspondra à la plus petite famille exponentielle qui contient $\zD G$ et $\zD P$, ce qui revient à considérer exactement toutes les distributions de la forme \begin{equation}\label{eqn:3}
+p(y) = \phi(y)\exp\zp{\sum_{l=1}^{L_{\zD G}}\alpha_l S_l(y) + \sum_{i=1}^{n}r_i(y_i) - \psi},
+\end{equation}
+avec $S_l$ une \zguill{base} de $\zD G$, $r_i$ des fonctions réelles (puisque l'on a pas de \zguill{base} finie pour $\zD P$), $\psi$ un coefficient de normalisation et $\phi(y)$ une distribution normale homogène ($\Ng{0}{I_n}$).
+
+Par le théorème de Pythagore, on trouve que pour toute distribution $Q$ de $\zD G$ ou de $\zD P$, on a :\begin{equation}\label{eqn:2}
+\Kl PQ = \Kl P{P^{\zD G\vee\zD P}} + \Kl {P^{\zD G\vee\zD P}}Q.
+\end{equation}
+Ainsi, la divergence minimum sur $\zD G$ par rapport à $P$ et par rapport à $P^{\zD G\vee\zDP P}$ est atteinte au même point $P^{\zD G}$, ce qui revient à dire que :\[
+\zp{P^{\zD G\vee \zD P}}^{\zD G} = P^{\zD G},
+\]
+de même pour $P^{\zD P}$.
+
+Ainsi, en reprenant l'équation \ref{eqn:2} et en l'utilisant avec $Q=P^{\zD P}$ et avec $Q=P^{\zD G}$, on trouve les relations suivantes : \[\begin{array}{rcl}
+\zZ IP &=& \Kl P{P^{\zD G\vee\zD P}} + \zZ I{P^{\zD G\vee\zD P}}\\
+\zZ GP &=& \Kl P{P^{\zD G\vee\zD P}} + \zZ G{P^{\zD G\vee\zD P}}\\
+\end{array}\]
+
+En supposant que les valeurs des divergences sont suffisamment petites, on peut supposer que la figure formé par $P^{\zD G\vee\zD P}$, $P^{\zD G}$, $P^{\zD P}$ et $P^{\zD G\wedge\zD P}$ et un rectangle. L'égalité des longueurs nous donne alors :
+\[
+\zZ I{P^{\zD P\vee\zD G}} \simeq \zZ CP\qquad\mbox{et}\qquad
+\zZ G{P^{\zD P\vee\zD G}} \simeq \sum_i\zZ G{P_i}.\]
+Cela donne, avec les équations précédentes :\[\begin{array}{rcl}
+\zZ IP &\simeq& \Kl P{P^{\zD G\vee\zD P}} + \zZ CP\\
+\zZ GP &\simeq& \Kl P{P^{\zD G\vee\zD P}} + \sum_i\zZ G{P_i}\\
+\end{array}\]
+La distribution $P^{\zD G\vee\zD P}$ peut être interprété comme la distribution la plus simple approchant la distribution $P$, dans le sens où elle capture la structure marginale de $P$ et sa structure de premier et second ordre (voir équation \ref{eqn:3}).
+
+%% ------- -- -- -  -                                      -  - -- -- --------%%
+%---- -- -  -                       Cumulant                       -  - -- ----%
+%%-------- -- -- -  -                                      -  - -- -- ------- %%
+
+\section{Cumulant et géométrie locale}
+
+Pour rappel, les cumulants $\kappa_n$ d'une variable aléatoire $X$ sont définis avec la fonction génératrice des cumulants :\begin{equation}
+  g(t) = \log\zesp{\zexp{tX}} = \sum_{n=1}^{\infty} \frac{\kappa_n}{n!}t^n
+\end{equation}
+
+On s'intéresse ici aux distributions au voisinage de $P^{\zD G\wedge\zD P}$, ce qui correspond aux distributions faiblement corrélées et faiblement non-gaussiennes. On assimilera les variétés $\zD P$ et $\zD G$ à leur plan tangent et la divergence de Kullback-Leibler à une mesure quadratique.
+
+\subsection{Construction des plans tangents}
+
+Pour deux distributions $p(x)$ et $n(x)$, on définit la fonction \[
+e_p(x) = \frac{p(x)}{n(x)}-1,
+\]
+qui sera alors d'espérance nulle selon $n(x)$ : $\zesp[X\sim n]{e_p(X)}=0$.
+
+On cherche alors à identifier les distributions $p$ proches de $n$ aux \zguill{petites} fonctions d'espérance nulle selon $n$.
+Si on considère une distribution proche de $n$, la fonction $e_p$ sera $petite$ et d'espérance nulle. Réciproquement, pour une fonction $e_p$ données, on considérera alors $p(x)=n(x)\zp{e_p(x)+1}$ qui sera bien une distribution proche de $n(x)$.
+
+Ainsi, on peut identifier l'espace vectoriel des variables aléatoires d'espérance nulle et de variance finie au plan tangent à la variété des distributions au point $n$.
+\znl
+
+Si on considère deux distributions $p$ et $q$ proches de $n$, on peut exprimer $\mathrm{K}_n$ l'expansion au second ordre suivant $e_p$ et $e_q$ de $\Kl pq$ de la manière suivante :\begin{equation}
+  \Kl[n]pq = \frac 12 \zesp[X\sim n]{\zp{e_p(X)-e_q(X)}^2}
+\end{equation}
+
+\subsection{Expansion de Gram-Charlier}
+
+
+\subsection{Base d'Hermite}
+\subsection{Approximation de la divergence par des petits cumulants}
+\subsection{Décomposition en quatres parties}
+\subsection{Divergences et objectifs}
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                               FIN DU DOCUMENT                                %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
