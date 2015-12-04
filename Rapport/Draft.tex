@@ -1,0 +1,198 @@
+\documentclass[10pt, a4paper, twocolumn]{article} 
+
+
+\input{zMC.tex}
+\input{zMCgraphe.tex}
+
+\zzpackages[english]
+
+
+%% \setlength{\textwidth}{460pt}
+%% \setlength{\hoffset}{-54pt}
+\setlength{\textwidth}{495pt}
+\setlength{\hoffset}{-20pt}
+\addtolength{\textheight}{1.6in}
+\setlength{\voffset}{-60pt}
+
+%\zzheader{a}{b}{c}{d}{e}{f}
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                MACRO LOCALES                                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
+
+\newcommand{\mysection}[1]{\vspace{-0pt}\section{#1}\vspace{0pt}}
+\newcommand{\mysubsection}[1]{\vspace{-7pt}\subsection{\normalsize #1}\vspace{-2pt}}
+
+
+\newcommand{\Kl}[3][]{\mathrm K_{#1}\!\zp{#2\:\|\:#3}}
+\newcommand{\zZ}[2]{\mathrm #1\!\zp{#2}}
+\newcommand{\zD}{\mathcal}
+\newcommand{\Ng}[2]{\mathcal{N}\zp{#1,\:#2}}
+
+\tikzset{
+  zplot/.style={opacity=.8}
+}
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                    TITRE                                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
+\begin{document}
+
+\allowdisplaybreaks[1]
+ \twocolumn[{
+~\vspace{-30pt}
+
+\begin{center}
+  \textbf{ {\huge Independent Component Analysis} \\[5pt]
+{\Large MVA Project -- One page draft}}\\[15pt]
+  {\large \textsc{Nathan de Lara\hss Florian Tilquin\hss Vincent Vidal}}
+\end{center}
+\vspace{-10pt}
+
+\zligne
+
+\vspace{.2cm}
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                   ABSTRACT                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
+
+\hbox to \textwidth{\hss \textsc{Abstract}\hss}
+We decided to work on the Independent Component Analysis problem. We intent to implement, apply and compare several algorithms while being certain to understand the link between the likelihood maximisation and the mutual information.
+\vspace{.7cm}
+%
+%% Ne pas toucher ça (en dessous)
+}]
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                              DEBUT DU DOCUMENT                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
+
+\mysection{Definition of the problem}
+
+The general problem can be formalise this way.
+We suppose to have some random variables $x\in\zR^p$ which correspond to
+a mix of some primitives random sources $s\in\zR^n$. The goal is to extract
+from $x$ every source $s_i$. To do so, we will suppose here that:\\
+-- the sources are independents\\
+-- the mix is linear and instantaneous\\
+-- at most one source has a gaussian distribution.\\
+So we will write: \begin{equation}
+  x = A s\hspace{1cm}\mbox{and}\hspace{1cm}y = W x,
+\end{equation}
+where $A$ is the mixing matrix, $W$ the separation matrix and $y$ the
+estimation of the sources. The goal is then to find the matrix $W$ that
+minimise the independence of $y$.
+%% But because only $x$ is known, the problem is to find a matrix
+%% $A\in\zR^{p\times n}$ of rank $n$ and a positive diagonal matrix $D$ such
+%% that the covariance matrix of $x$ can be written $A D^2 \ztr A$ and
+%% \hbox{$x = A s$} with $s$ of covariance $D^2$ and such that the component
+%% of $s$ are as most independent as possible. 
+As a measure of independence, we will consider, for theoretical purpose,
+the mutual information:\begin{equation}
+  \zZ IY = \int_{\zR^p} P(Y) \log\frac{P(Y)}{\Pi_i P_i(Y_i)} \zdx Y.
+\end{equation}
+For practical purpose, we will consider other contrast function than the
+mutual information (too hard to compute), which are invariant by permutation
+and scaling on coordinates and ``minimal'' for independent coordinates.
+
+
+%% ------- -- -- -  -                                      -  - -- -- --------%%
+%---- -- -  -                     Algorithmes                      -  - -- ----%
+%%-------- -- -- -  -                                      -  - -- -- ------- %%
+
+\mysection{Algorithms for ICA}
+\mysubsection{Hérault and Jutten (HJ) algorithm}
+This method is based on the neural network principle.
+We write $W = \zp{I_n+\widetilde W}^{-1}$ and for a pair of given function $\zp{f,\:g}$, we adapt the $\widetilde W$ as follows:\begin{equation}
+\widetilde W_{ij} = f(y_i) g(y_j).
+\end{equation}
+
+%% --------- ---- -  -            -----------             -  - ---- --------- %%
+
+\mysubsection{EASI algorithm}
+For a given contrast function $\psi$ and a cost function $J_\psi$, we iterate as follows:
+\begin{equation}
+  W_{t+1} = \zp{I_n-\lambda_t\nabla J_\psi(y_t)} W_t.
+\end{equation}
+The EASI algorithm correspond to the functions \hbox{$\psi(y) = \sum \zp[b]{y_i}^4$} and $J_\psi(y) = \zesp{\psi(y)}$.
+
+%% --------- ---- -  -            -----------             -  - ---- --------- %%
+
+\mysubsection{Jade algorithm}
+Several methods are based on the cumulants. The goal here is to annul all the cross cumulants of order $4$.
+So we want to diagonalize the cumulant tensor which is equivalent to minimise the following contrast function:\begin{equation}
+  c\zp{x} = \sum_{i,k,l}\zp[b]{\zop{Cum}{x_i,x_i^*,x_k,x_l}}^2.
+\end{equation}
+
+%% --------- ---- -  -            -----------             -  - ---- --------- %%
+
+\mysubsection{Infomax algorithm}
+
+This method is based on the information theory equality
+\hbox{$\zderiv{\zZ I{y,\:x}}w = \zderiv{\zZ Hy}w$},
+which gives us an update rule for minimising the mutual information:
+\begin{equation}
+  \Delta W=\zp[c]{\zpbig2\ztr W}^{-1}+\zderiv{\ln \Pi_i\zp[b]{y'_i}}W.
+\end{equation}
+
+
+%% ------- -- -- -  -                                      -  - -- -- --------%%
+%---- -- -  -                      Resultats                       -  - -- ----%
+%%-------- -- -- -  -                                      -  - -- -- ------- %%
+
+\mysection{Results}
+First, we decided to apply the main algorithm to some simple and simulated data.
+For tree sinusoidal signals, we show the results in figure \ref{fig:res}
+
+\begin{figure}
+\hbox{\hspace{-.8cm}\begin{mygraph}{xmin=0, xmax=100, %
+                ymin=-1, ymax=1, %
+                sizex=3.4, sizey=1.5}%
+                {nomx=Initial, nomy=}%
+                {0,50,100}{-1,-.5,...,1.05}
+  \draw[zplot, red] plot file {data/init_sources_2.txt};
+  \draw[zplot, green!70!black] plot file {data/init_sources_3.txt};
+  \draw[zplot, blue] plot file {data/init_sources_1.txt};
+\end{mygraph}\hspace{-1cm}
+\begin{mygraph}{xmin=0, xmax=100, %
+                ymin=-1, ymax=1, %
+                sizex=3.4, sizey=1.5}%
+                {nomx=FastICA, nomy=}%
+                {0,50,100}{-1,-.5,...,1.05}
+  \draw[zplot, red] plot file {data/init_fast_1.txt};
+  \draw[zplot, green!70!black] plot file {data/init_fast_2.txt};
+  \draw[zplot, blue] plot file {data/init_fast_3.txt};
+\end{mygraph}\hss}
+\hbox{\hspace{-.8cm}\begin{mygraph}{xmin=0, xmax=100, %
+                ymin=-1, ymax=1, %
+                sizex=3.4, sizey=1.5}%
+                {nomx=HJ, nomy=}%
+                {0,50,100}{-1,-.5,...,1.05}
+  \draw[zplot, red] plot file {data/init_hj_2.txt};
+  \draw[zplot, green!70!black] plot file {data/init_hj_1.txt};
+  \draw[zplot, blue] plot file {data/init_hj_3.txt};
+\end{mygraph}\hspace{-1cm}
+\begin{mygraph}{xmin=0, xmax=100, %
+                ymin=-1, ymax=1, %
+                sizex=3.4, sizey=1.5}%
+                {nomx=JADE, nomy=}%
+                {0,50,100}{-1,-.5,...,1.05}
+  \draw[zplot, red] plot file {data/init_jade_3.txt};
+  \draw[zplot, green!70!black] plot file {data/init_jade_1.txt};
+  \draw[zplot, blue] plot file {data/init_jade_2.txt};
+\end{mygraph}\hss}
+\caption{Results of the main algorithm for ICA on simulated data. Each colour correspond to a signal. The ``Initial'' graph show the initial signals and the other one the results of the algorithms. \label{fig:res}}
+\end{figure}
+
+\mysection{What's next}
+
+We intent now to implement our own version of some algorithm and apply it to different type of data such as electroencephalogram, financial data and images.
+
+%% \bibliographystyle{plain}
+%% \bibliography{Biblio}{}
+%% \nocite{*}
+%% \label{lastpage}
+
+\end{document}
+
+
