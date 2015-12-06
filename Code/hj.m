@@ -55,19 +55,15 @@ mdS = 0;
 
 for niter=1:options.niter
     Bold = B;
-    
     % update B, S
     for ii = 1:n
         y = B*X(:, ii);
         dS = u*g(y)*h(y');
-        
         mdS = [mdS norm(dS, 'fro')];
-        
         S = S + dS;
         S = S - diag(diag(S));
         B = (eye + S)^-1;
     end;
-      
     if (success == 1)
         break;
     end;
