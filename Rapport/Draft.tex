@@ -1,4 +1,4 @@
-\documentclass[10pt, a4paper, twocolumn]{article} 
+\documentclass[10pt, a4paper, twocolumn]{article}
 
 
 \input{zMC.tex}
@@ -36,6 +36,7 @@
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                    TITRE                                     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
+
 \begin{document}
 
 \allowdisplaybreaks[1]
@@ -69,19 +70,20 @@ We decided to work on the Independent Component Analysis problem. We intent to i
 
 \mysection{Definition of the problem}
 
-The general problem can be formalise this way.
-We suppose to have some random variables $x\in\zR^p$ which correspond to
-a mix of some primitives random sources $s\in\zR^n$. The goal is to extract
+The general problem can be formalised this way.
+Suppose we have some random variables $x\in\zR^p$ which correspond to
+a mix of some primitive sources $s\in\zR^n$. The aim is to extract
 from $x$ every source $s_i$. To do so, we will suppose here that:\\
 -- the sources are independents\\
 -- the mix is linear and instantaneous\\
 -- at most one source has a gaussian distribution.\\
-So we will write: \begin{equation}
-  x = A s\hspace{1cm}\mbox{and}\hspace{1cm}y = W x,
+We will write:
+\begin{equation}
+  x = A s \ \ \mbox{and} \ \ y = W x,
 \end{equation}
 where $A$ is the mixing matrix, $W$ the separation matrix and $y$ the
 estimation of the sources. The goal is then to find the matrix $W$ that
-minimise the independence of $y$.
+maximise the independence of $y$.
 %% But because only $x$ is known, the problem is to find a matrix
 %% $A\in\zR^{p\times n}$ of rank $n$ and a positive diagonal matrix $D$ such
 %% that the covariance matrix of $x$ can be written $A D^2 \ztr A$ and
@@ -91,9 +93,10 @@ As a measure of independence, we will consider, for theoretical purpose,
 the mutual information:\begin{equation}
   \zZ IY = \int_{\zR^p} P(Y) \log\frac{P(Y)}{\Pi_i P_i(Y_i)} \zdx Y.
 \end{equation}
-For practical purpose, we will consider other contrast function than the
-mutual information (too hard to compute), which are invariant by permutation
-and scaling on coordinates and ``minimal'' for independent coordinates.
+However, as it is too hard to compute, we will consider other contrast functions, invariant by permutation, scaling on coordinates and maximal for independant ones.
+%For practical purpose, we will consider other contrast function than the
+%mutual information (too hard to compute), which are invariant by permutation
+%and scaling on coordinates and ``minimal'' for independent coordinates.
 
 
 %% ------- -- -- -  -                                      -  - -- -- --------%%
@@ -103,7 +106,7 @@ and scaling on coordinates and ``minimal'' for independent coordinates.
 \mysection{Algorithms for ICA}
 \mysubsection{Hérault and Jutten (HJ) algorithm}
 This method is based on the neural network principle.
-We write $W = \zp{I_n+\widetilde W}^{-1}$ and for a pair of given function $\zp{f,\:g}$, we adapt the $\widetilde W$ as follows:\begin{equation}
+We write $W = \zp{I_n+\widetilde W}^{-1}$ and for a pair of given functions $\zp{f,\:g}$, we adapt the $\widetilde W$ as follows:\begin{equation}
 \widetilde W_{ij} = f(y_i) g(y_j).
 \end{equation}
 
@@ -119,8 +122,9 @@ The EASI algorithm correspond to the functions \hbox{$\psi(y) = \sum \zp[b]{y_i}
 %% --------- ---- -  -            -----------             -  - ---- --------- %%
 
 \mysubsection{Jade algorithm}
-Several methods are based on the cumulants. The goal here is to annul all the cross cumulants of order $4$.
-So we want to diagonalize the cumulant tensor which is equivalent to minimise the following contrast function:\begin{equation}
+Several methods are based on the cumulants. The aim here is to annul all the cross cumulants of order $4$.
+Thus, we diagonalize the cumulant tensor which is equivalent to minimise the following contrast function:
+\begin{equation}
   c\zp{x} = \sum_{i,k,l}\zp[b]{\zop{Cum}{x_i,x_i^*,x_k,x_l}}^2.
 \end{equation}
 
@@ -128,12 +132,13 @@ So we want to diagonalize the cumulant tensor which is equivalent to minimise th
 
 \mysubsection{Infomax algorithm}
 
-This method is based on the information theory equality
-\hbox{$\zderiv{\zZ I{y,\:x}}w = \zderiv{\zZ Hy}w$},
-which gives us an update rule for minimising the mutual information:
-\begin{equation}
-  \Delta W=\zp[c]{\zpbig2\ztr W}^{-1}+\zderiv{\ln \Pi_i\zp[b]{y'_i}}W.
-\end{equation}
+CHANGER PAR FASTICA ?
+%%This method is based on the information theory equality
+%%\hbox{$\zderiv{\zZ I{y,\:x}}w = \zderiv{\zZ Hy}w$},
+%%which gives us an update rule for minimising the mutual information:
+%%\begin{equation}
+%%  \Delta W=\zp[c]{\zpbig2\ztr W}^{-1}+\zderiv{\ln \Pi_i\zp[b]{y'_i}}W.
+%%\end{equation}
 
 
 %% ------- -- -- -  -                                      -  - -- -- --------%%
@@ -141,14 +146,14 @@ which gives us an update rule for minimising the mutual information:
 %%-------- -- -- -  -                                      -  - -- -- ------- %%
 
 \mysection{Results}
-First, we decided to apply the main algorithm to some simple and simulated data.
-For tree sinusoidal signals, we show the results in figure \ref{fig:res}
+First, we decided to apply the main algorithm to simple simulated data.
+For three sinusoidal signals of arbitrary frequencies and phases, we obtain the results in figure \ref{fig:res}.
 
 \begin{figure}
 \hbox{\hspace{-.8cm}\begin{mygraph}{xmin=0, xmax=100, %
                 ymin=-1, ymax=1, %
                 sizex=3.4, sizey=1.5}%
-                {nomx=Initial, nomy=}%
+                {nomx=Sources, nomy=}%
                 {0,50,100}{-1,-.5,...,1.05}
   \draw[zplot, red] plot file {data/init_sources_2.txt};
   \draw[zplot, green!70!black] plot file {data/init_sources_3.txt};
@@ -181,12 +186,12 @@ For tree sinusoidal signals, we show the results in figure \ref{fig:res}
   \draw[zplot, green!70!black] plot file {data/init_jade_1.txt};
   \draw[zplot, blue] plot file {data/init_jade_2.txt};
 \end{mygraph}\hss}
-\caption{Results of the main algorithm for ICA on simulated data. Each colour correspond to a signal. The ``Initial'' graph show the initial signals and the other one the results of the algorithms. \label{fig:res}}
+\caption{Results of the main ICA algorithms on simulated data. Each colour corresponds to a signal. The ``Sources'' graph shows the unmixed signals and the other ones the results of the algorithms. \label{fig:res}}
 \end{figure}
 
 \mysection{What's next}
 
-We intent now to implement our own version of some algorithm and apply it to different type of data such as electroencephalogram, financial data and images.
+We intent now to implement our own version of some of the algorithms and apply it to different types of data such as electroencephalogram, financial data and images. We will also look into more recent methods such as kernel ICA.
 
 %% \bibliographystyle{plain}
 %% \bibliography{Biblio}{}
