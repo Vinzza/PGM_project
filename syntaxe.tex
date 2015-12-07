@@ -1,0 +1,33 @@
+\documentclass[a4paper,11pt,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage{amsmath, amsfonts, amssymb, amsthm, dsfont}
+\usepackage{bbold}
+\usepackage{stmaryrd}
+\usepackage{mathrsfs}
+\usepackage{fancyhdr}
+\usepackage{color}
+\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
+\newtheorem{mydef}{Definition}
+
+\begin{document}
+\section{Syntaxe git}
+\begin{itemize}
+	\item 1. \textbf{git pull} Toujours pull pour vérifier qu'on a la dernière version. (au pire travailler avec des fichiers temporaires sur un autre dossier pour éviter les conflits)
+	\item 2. \textbf{git add file1 file2 file3 \dots} On ajoute les fichiers qu'on veut updater sur le serveur. Il faut se placer dans le dossier où ils se situent pour ça (voir commandes linux en \ref{linux})
+	\item 3. \textbf{git commit} Là il t'ouvre un editeur a priori pour que tu rédiges un résumé sommaire de ce que tu as fait à destination des autres.
+	\item 4. \textbf{git push} On envoie le tout au serveur. Le tour est joué.
+\end{itemize}
+
+\section{Commandes linux utiles}
+\label{linux}
+\begin{itemize}
+	\item \textbf{cd dir} ``change directory'' : Va dans le dossier dir. Tu peux donc préciser le dossier depuis sa localisation dans windows (C/home/nathan/Documents/\dots) ou par rapport à là où tu es (juste le nom du dossier s'il est dans le dossier où tu te trouves. Ex : cd Code).
+	\item \textbf{ls} ``list'' : Qu'y a t'il dans le dossier où je me trouve justement (dossiers et fichiers)?
+	\item \textbf{pwd} ``print working directory'' : Où suis-je d'ailleurs ? En pratique c'est toujours affiché dans la console au dessus du prompt (le chevron > ).
+\end{itemize}
+Le reste ne te concerne pas puisque tu peux, sous windows, renommer/deplacer/supprimer un fichier sans le faire dans la console, donc restons en là pour l'instant.
+\end{document}
+
