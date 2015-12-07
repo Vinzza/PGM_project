@@ -14,7 +14,7 @@
 \addtolength{\textheight}{1.6in}
 \setlength{\voffset}{-60pt}
 
-%\zzheader{a}{b}{c}{d}{e}{f}
+\makeatletter\def\@oddfoot{}\makeatother
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                MACRO LOCALES                                 %
@@ -58,7 +58,7 @@
 %                                   ABSTRACT                                   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
 
-\hbox to \textwidth{\hss \textsc{Abstract}\hss}
+\hbox to \textwidth{\hss \textsc{Abstract}\hss}\small
 We decided to work on the Independent Component Analysis problem. We intent to implement, apply and compare several algorithms while being certain to understand the link between the likelihood maximisation and the mutual information.
 \vspace{.7cm}
 %
@@ -79,7 +79,7 @@ from $x$ every source $s_i$. To do so, we will suppose here that:\\
 -- at most one source has a gaussian distribution.\\
 We will write:
 \begin{equation}
-  x = A s \ \ \mbox{and} \ \ y = W x,
+  x = A s \ \ \mbox{and} \ \ y = W x,
 \end{equation}
 where $A$ is the mixing matrix, $W$ the separation matrix and $y$ the
 estimation of the sources. The goal is then to find the matrix $W$ that
@@ -130,9 +130,12 @@ Thus, we diagonalize the cumulant tensor which is equivalent to minimise the fol
 
 %% --------- ---- -  -            -----------             -  - ---- --------- %%
 
-\mysubsection{Infomax algorithm}
+\mysubsection{FastICA algorithm}
+The FastICA algorithm is based on the information theory. We want here to maximise the marginal non-gaussianity on the whitened data, relying on a non linear quadratic function $f$ with the following rule:\begin{equation}
+  \widetilde W_{t+1} = \zesp{X.\ztr{f(\ztr{W_t}X)}} - \zesp{f''(\ztr{W_t}X)}W_t,
+\end{equation}
+with $W_t$ the normalise vector of $\widetilde W_t$. In our case, we will use $f(x) = \frac{x^4}4$. We may use $f(x) = \log \cosh x$ or $f(x) = \exp\zp{-\frac{x^2}2}$ too.
 
-CHANGER PAR FASTICA ?
 %%This method is based on the information theory equality
 %%\hbox{$\zderiv{\zZ I{y,\:x}}w = \zderiv{\zZ Hy}w$},
 %%which gives us an update rule for minimising the mutual information:
@@ -147,7 +150,7 @@ CHANGER PAR FASTICA ?
 
 \mysection{Results}
 First, we decided to apply the main algorithm to simple simulated data.
-For three sinusoidal signals of arbitrary frequencies and phases, we obtain the results in figure \ref{fig:res}.
+For three sinusoidal signals of arbitrary frequencies and phases, we obtain the results in figure \ref{fig:res}, which are good for all methods. We only have to remark that FastICA doesn't retrieve the sign of the signal, which is irrelevant.
 
 \begin{figure}
 \hbox{\hspace{-.8cm}\begin{mygraph}{xmin=0, xmax=100, %
@@ -186,10 +189,11 @@ For three sinusoidal signals of arbitrary frequencies and phases, we obtain the 
   \draw[zplot, green!70!black] plot file {data/init_jade_1.txt};
   \draw[zplot, blue] plot file {data/init_jade_2.txt};
 \end{mygraph}\hss}
+\vspace{-.2cm}
 \caption{Results of the main ICA algorithms on simulated data. Each colour corresponds to a signal. The ``Sources'' graph shows the unmixed signals and the other ones the results of the algorithms. \label{fig:res}}
 \end{figure}
 
-\mysection{What's next}
+\mysection{Upcoming Work}
 
 We intent now to implement our own version of some of the algorithms and apply it to different types of data such as electroencephalogram, financial data and images. We will also look into more recent methods such as kernel ICA.
 
