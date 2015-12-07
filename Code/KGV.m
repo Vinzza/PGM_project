@@ -19,6 +19,5 @@ function c = KCCA(X,sigma,kap) %nathan : kap c'est petit kappa
         R{k,k} = eye(M(k));
     end
 	R = cell2mat(R);
-    l1 = eigs(R,1,'sm'); % returns smallest magnitude eigenvalue of R
-    c = -0.5*log(l1);
+    c = -0.5*log(det(R));
 end
