@@ -127,6 +127,14 @@ urlcolor=cyan!30!black }
 \newcommand{\zpbig}[1]{\ifcase#1\relax\vrule width0pt height0pt\or\vrule width0pt height9pt\or\vrule width0pt height10pt\or\vrule width0pt height13pt\else\vrule width0pt height16pt\fi}
 
 %% ------- -- -- -  -                                      -  - -- -- --------%%
+%---- -- -  -                   Itemize et autre                   -  - -- ----%
+%%-------- -- -- -  -                                      -  - -- -- ------- %%
+
+\newcommand{\zitemize}[1]{
+\vspace{-\topsep}\begin{itemize}\setlength\itemsep{0pt plus 1pt}\setlength\parskip{0cm}#1\end{itemize}\vspace{-\topsep}}
+
+
+%% ------- -- -- -  -                                      -  - -- -- --------%%
 %---- -- -  -                        AUTRES                        -  - -- ----%
 %%-------- -- -- -  -                                      -  - -- -- ------- %%
 
