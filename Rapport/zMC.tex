@@ -4,11 +4,10 @@
 %%%%%%%%%% %% %% %  %                                      %  % %% %% %%%%%%% %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
 
-
-\def\zzpackages{
+\newcommand{\zzpackages}[1][french]{
   \usepackage[utf8]{inputenc}
   \usepackage[T1]{fontenc}
-%  \usepackage[french]{babel}
+  \usepackage[#1]{babel}
 
   \usepackage{amsthm}
   \usepackage{amsmath}
@@ -131,6 +130,7 @@ urlcolor=cyan!30!black }
 %---- -- -  -                        AUTRES                        -  - -- ----%
 %%-------- -- -- -  -                                      -  - -- -- ------- %%
 
+\newcommand{\zR}{\mathbb{R}}
 
 \newcommand{\zsum}[2][0pt]{\sum_{\hbox to #1{\hss$\scriptstyle#2$\hss}}}
 \newcommand{\zprod}[2][0pt]{\prod_{\hbox to #1{\hss$\scriptstyle#2$\hss}}}

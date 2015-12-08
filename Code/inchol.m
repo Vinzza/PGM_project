@@ -22,14 +22,16 @@ function [P,G,i] = inchol(K,eta)
 		i = i+1;
         h = diag(G);
         [~,j] = max(h(i:N)); j = j+i-1;
-        % Update the permutation matrix
-		P(i,i) = 0; P(j,j) = 0; P(i,j) = 1; P(j,i) = 1;
-        
-        % Apply transposition on K1
-        dum = K1(:,i); K1(:,i) = K1(:,j); K1(:,j)= dum;     
-        dum = K1(i,:); K1(i,:) = K1(j,:); K1(j,:)=dum;
-        % Apply transposition on G
-        dum = G(i,1:i); G(i,1:i) = G(j,1:i); G(i,1:i) = dum;
+        if i ~= j
+            % Update the permutation matrix
+            P(i,i) = 0; P(j,j) = 0; P(i,j) = 1; P(j,i) = 1;
+
+            % Apply transposition on K1
+            dum = K1(:,i); K1(:,i) = K1(:,j); K1(:,j)= dum;     
+            dum = K1(i,:); K1(i,:) = K1(j,:); K1(j,:)=dum;
+            % Apply transposition on G
+            dum = G(i,1:i); G(i,1:i) = G(j,1:i); G(i,1:i) = dum;
+        end
 
         G(i,i) = sqrt(K1(i,i));
 		G(i+1:N,i) = ( K1(i+1:N,i) - G(i+1:N,1:i-1)*G(i,1:i-1)' ) ./ G(i,i);
@@ -41,6 +43,6 @@ function [P,G,i] = inchol(K,eta)
         end
     end
     
-    G = G(:,1:i);
+    G = G( :, 1:i);
     
 end
