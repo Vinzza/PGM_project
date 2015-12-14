@@ -4,11 +4,10 @@
 %%%%%%%%%% %% %% %  %                                      %  % %% %% %%%%%%% %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
 
-
-\def\zzpackages{
+\newcommand{\zzpackages}[1][french]{
   \usepackage[utf8]{inputenc}
   \usepackage[T1]{fontenc}
-%  \usepackage[french]{babel}
+  \usepackage[#1]{babel}
 
   \usepackage{amsthm}
   \usepackage{amsmath}
@@ -128,9 +127,18 @@ urlcolor=cyan!30!black }
 \newcommand{\zpbig}[1]{\ifcase#1\relax\vrule width0pt height0pt\or\vrule width0pt height9pt\or\vrule width0pt height10pt\or\vrule width0pt height13pt\else\vrule width0pt height16pt\fi}
 
 %% ------- -- -- -  -                                      -  - -- -- --------%%
+%---- -- -  -                   Itemize et autre                   -  - -- ----%
+%%-------- -- -- -  -                                      -  - -- -- ------- %%
+
+\newcommand{\zitemize}[1]{
+\vspace{-\topsep}\begin{itemize}\setlength\itemsep{0pt plus 1pt}\setlength\parskip{0cm}#1\end{itemize}\vspace{-\topsep}}
+
+
+%% ------- -- -- -  -                                      -  - -- -- --------%%
 %---- -- -  -                        AUTRES                        -  - -- ----%
 %%-------- -- -- -  -                                      -  - -- -- ------- %%
 
+\newcommand{\zR}{\mathbb{R}}
 
 \newcommand{\zsum}[2][0pt]{\sum_{\hbox to #1{\hss$\scriptstyle#2$\hss}}}
 \newcommand{\zprod}[2][0pt]{\prod_{\hbox to #1{\hss$\scriptstyle#2$\hss}}}
