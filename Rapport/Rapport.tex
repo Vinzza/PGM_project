@@ -37,7 +37,7 @@
 {\bfseries \huge Independent Component Analysis}\par\vspace{.3cm}
 {\bfseries \Large PGM Project}\par\vspace{.7cm}
 \hbox to \textwidth{\hss
-\foo{Nathan de Lara}{École Polytechnique}
+\foo{Nathan de Lara}{École polytechnique}
 \foo{Florian Tilquin}{ENS Cachan}
 \foo{Vincent Vidal}{ENS Ulm}
 }\par\vspace{.8cm}
@@ -50,26 +50,26 @@
 
 
 \begin{center}\textsc{Abstract}\end{center}
-We decided to work on the Independent Component Analysis problem. We intent to implement, apply and compare several algorithms while being certain to understand the link between the likelihood maximisation and the mutual information.
+This paper is dedicated to the study of Independent Component Analysis. We intent to implement, apply and compare several algorithms while being presenting some theoretical aspects such as the link between the likelihood maximisation and the mutual information.
 
 %% ------- -- -- -  -                                      -  - -- -- --------%%
 %---- -- -  -                     Introduction                     -  - -- ----%
 %%-------- -- -- -  -                                      -  - -- -- ------- %%
 
 
-\section{Definition of the problem}
+\section{Problem statement}
 \subsection{Introduction}
 
-The general problem can be formalised this way.
+The general Independent Component Analysis problem can be formalised this way:
 Suppose we have some random variables $x\in\zR^p$ which correspond to
 a mix of some primitive sources $s\in\zR^n$. The aim is to extract
 from $x$ every source $s_i$. To do so, we will suppose here that:
 \zitemize{
 \item[--] the sources are independents.
 \item[--] the mix is linear and instantaneous
-\item[--] at most one source has a gaussian distribution.
+\item[--] at most one source has a Gaussian distribution.
 }
-We will write:
+We define:
 \begin{equation}
   x = A s \ \ \mbox{and} \ \ y = W x,
 \end{equation}
@@ -77,29 +77,27 @@ where $A$ is the mixing matrix, $W$ the separation matrix and $y$ the
 estimation of the sources. The goal is then to find a matrix $W$ that
 maximise a certain measure of independence of $y$.
 
-As a measure of independence, we will consider, for theoretical purpose,
+As a measure of independence, we consider, for theoretical purpose,
 the mutual information:\begin{equation}
   \zZ IY = \int_{\zR^p} P(Y) \log\frac{P(Y)}{\Pi_i P_i(Y_i)} \zdx Y.
 \end{equation}
-However, as it is too hard to compute, we will consider other contrast functions, invariant by permutation, scaling on coordinates and maximal for independent ones.
-%For practical purpose, we will consider other contrast function than the
-%mutual information (too hard to compute), which are invariant by permutation
-%and scaling on coordinates and ``minimal'' for independent coordinates.
+However, as it is too hard to compute, we consider other contrast functions, invariant by permutation, scaling on coordinates and maximal for independent ones.
+
 
 %% --------- ---- -  -         Information Theory         -  - ---- --------- %%
 
 \subsection{Information Theory}
-
-Till the end, for a random variable $X\in\zR^n$, we will note $P\zp{X}$ his density and $\Sigma_X$ his covariance matrix.
+\label{infth}
+Let $X\in\zR^n$ be a random variable, we note $P\zp{X}$ his density and $\Sigma_X$ his covariance matrix.
 \znl
 
-In the space of measures, we will consider $\zD G$ the manifold of gaussian distributions, $\zD P$ the manifold of ``product'' distributions and $\zD P\wedge\zD G$ the manifold of gaussian ``product'' distribution. We can remark that these manifolds are exponential families.
+In the space of measures, let $\zD G$ be the manifold of Gaussian distributions, $\zD P$ the manifold of ``product'' distributions and $\zD P\wedge\zD G$ the manifold of Gaussian ``product'' distributions. Note that these manifolds are exponential families.
 
-The main property of this geometric point of view is that the Kullback-Leibler divergence allows the notion of projection on exponential families. The projection of $P$ on the family $\zD E$ is defined as the vector of $\zD E$ that minimise the divergence to $P$. We will write this projection~$P^{\zD E}$.
+The main advantage of this geometric point of view is that the Kullback-Leibler divergence allows the notion of projection on exponential families. The projection of $P$ on the family $\zD E$ is defined as the vector of $\zD E$ that minimise the divergence to $P$. We write this projection~$P^{\zD E}$.
 
 \znl
 
-We can then define:
+Then, we define:
 
 The \textbf{Kullback--Leibler divergence} distribution from $Q$ to $P$:
 \begin{equation}
@@ -133,10 +131,27 @@ The \textbf{correlation}:
   &=& \displaystyle\frac 12\log\frac{\det\zp{\mathrm{Diag}(\Sigma_Y)}}{\det\zp{\Sigma_Y}}.
 \end{array}\end{equation}
 
-We can show the following relations:
+Using the fact that:
+\begin{equation}
+\Kl {\zpbig2 P(Y)}{P(Y)^{\zD P}}+\sum_i \Kl {\zpbig2 P(Y_i)}{P(Y_i)^{\zD G}} = \Kl {\zpbig2 P(Y)}{P(Y)^{\zD G}} + \Kl{\zpbig2 P(Y)^{\zD G}}{P(Y)^{\zD P\wedge\zD G}}
+\end{equation}
+We have:
 \begin{equation}
         \zZ IY + \sum_i\zZ G{Y_i} = \zZ GY + \zZ CY.
 \end{equation}
+For more information see~\cite{cardoso2003}.
+
+\subsection{ICA and Maximum Likelihood}
+As presented in~\cite{hyvarinen2000}, it is possible to consider ICA as a maximum likelihood problem linked to the infomax principle. 
+With the previously introduced notations, the log-likelihood is defined as:
+\begin{equation}
+L = \sum_t \sum_i \log f_i(w_i^Tx(t))+T\log(|det(W)|)
+\end{equation}
+Where $f_i$ is the density function of $s_i$. The expectation of this likelihood is:
+\begin{equation}
+\mathbb{E}[L] = \sum_i \mathbb{E}[\log f_i(w_i^Tx(t))]+\log(|det(W)|)
+\end{equation}
+In the case where $f_i$ is the actual distribution of $w_i^Tx(t)$, the first term becomes $-\sum_i H(w_i^Tx(t))$ which is one of the independence measures listed in~\ref{infth}.
 
 %% ------- -- -- -  -                                      -  - -- -- --------%%
 %---- -- -  -                     Algorithmes                      -  - -- ----%
@@ -145,24 +160,24 @@ We can show the following relations:
 \section{Algorithms for ICA}
 \subsection{Hérault and Jutten (HJ) algorithm}
 This method is based on the neural network principle.
-We write $W = \zp{I_n+\widetilde W}^{-1}$ and for a pair of given functions $\zp{f,\:g}$, we adapt the $\widetilde W$ as follows:\begin{equation}
+We write $W = \zp{I_n+\widetilde W}^{-1}$ and for a pair of given functions $\zp{f,\:g}$, we adapt $\widetilde W$ as follows:\begin{equation}
 \widetilde W_{ij} = f(y_i) g(y_j).
 \end{equation}
 
 %% --------- ---- -  -            -----------             -  - ---- --------- %%
 
 \subsection{EASI algorithm}
-For a given contrast function $\psi$ and a cost function $J_\psi$, we iterate as follows:
+For a given contrast function $\psi$ and a cost function $J_\psi$, the algorithm iterates as follows:
 \begin{equation}
   W_{t+1} = \zp{I_n-\lambda_t\nabla J_\psi(y_t)} W_t.
 \end{equation}
-The EASI algorithm correspond to the functions \hbox{$\psi(y) = \sum \zp[b]{y_i}^4$} and $J_\psi(y) = \zesp{\psi(y)}$.
+The EASI algorithm corresponds to the functions \hbox{$\psi(y) = \sum \zp[b]{y_i}^4$} and $J_\psi(y) = \zesp{\psi(y)}$.
 
 %% --------- ---- -  -            -----------             -  - ---- --------- %%
 
 \subsection{Jade algorithm}
-Several methods are based on the cumulants. The aim here is to annul all the cross cumulants of order $4$.
-Thus, we diagonalize the cumulant tensor which is equivalent to minimise the following contrast function:
+Several methods are based on the cumulants. The goal here is to annul all the cross cumulants of order $4$.
+Thus, the idea is to diagonalize the cumulant tensor which is equivalent to minimise the following contrast function:
 \begin{equation}
   c\zp{x} = \sum_{i,k,l}\zp[b]{\zop{Cum}{x_i,x_i^*,x_k,x_l}}^2.
 \end{equation}
@@ -170,17 +185,11 @@ Thus, we diagonalize the cumulant tensor which is equivalent to minimise the fol
 %% --------- ---- -  -            -----------             -  - ---- --------- %%
 
 \subsection{FastICA algorithm}
-The FastICA algorithm is based on the information theory. We want here to maximise the marginal non-gaussianity on the whitened data, relying on a non linear quadratic function $f$ with the following rule:\begin{equation}
+The FastICA algorithm is based on the information theory. The goal here is to maximise the marginal non-gaussianity on the whitened data, relying on a non linear quadratic function $f$ with the following rule:\begin{equation}
   \widetilde W_{t+1} = \zesp{X.\ztr{f(\ztr{W_t}X)}} - \zesp{f''(\ztr{W_t}X)}W_t,
 \end{equation}
-with $W_t$ the normalise vector of $\widetilde W_t$. In our case, we will use $f(x) = \frac{x^4}4$. We may use $f(x) = \log \cosh x$ or $f(x) = \exp\zp{-\frac{x^2}2}$ too.
+with $W_t$ the normalise vector of $\widetilde W_t$. In our experiments, we used $f(x) = \frac{x^4}4$. But it is possible to use $f(x) = \log \cosh x$ or $f(x) = \exp\zp{-\frac{x^2}2}$ as well.
 
-%%This method is based on the information theory equality
-%%\hbox{$\zderiv{\zZ I{y,\:x}}w = \zderiv{\zZ Hy}w$},
-%%which gives us an update rule for minimising the mutual information:
-%%\begin{equation}
-%%  \Delta W=\zp[c]{\zpbig2\ztr W}^{-1}+\zderiv{\ln \Pi_i\zp[b]{y'_i}}W.
-%%\end{equation}
 
 
 %% ------- -- -- -  -                                      -  - -- -- --------%%
