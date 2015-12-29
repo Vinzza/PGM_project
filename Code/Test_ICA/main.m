@@ -1,0 +1,56 @@
+%% TEST ICA
+
+source_size = 1000;
+% Taille de la source
+% Bach utilise : 250, 1000, 2000 et 4000.
+% En sachant qu'il augmente cette taille en même temps que le nombre de
+% source (voir les couples utilisés dans nb_iter).
+
+nb_source = 2;
+% Nombre de source.
+% Bach utilise 2 sources lorsque l'on prend une même distribution
+% (type='same') et il utilise 2, 4, 8 ou 16 sources.
+
+type = 'same';
+% On a 2 types de données :
+% 'same' : on prend la même distribution
+%          ça correspond au tableau 1 de Bach
+%          (on prendra de préférence nb_source = 2 du coup)
+% 'random' : on prend des distributions différentes, prises aléatoirement
+%            parmi toutes les distributions disponibles.
+%            (colonne 'rand' du tableau 1 de Bach, pour nb_source = 2)
+
+param = 1;
+% Cela selectionne le numéro de la distribution pour un type 'same'.
+% Dans ce cas, il faut un entier entre 1 et 12.
+
+ICAfun = @( signal, m ) easi( signal, m );
+% On doit absolument avoir une fonction qui prend le signal mixé et le
+% nombre de source à extraire et qui renvoie la matrice de demixage.
+% Donc forcement une fonction de la forme :
+% ICAfun = @( signal, m ) fct(arg1,...,argn);
+%
+% Au niveau des algos, on a :
+% ICAfun = @( signal, m ) JADE( signal, m );
+
+nb_iter = 10;
+% Le nombre de fois qu'on itère le calcul de l'erreur. Bach prend les
+% valeurs suivantes en fonction de nb_source(m) et source_size(N) :
+% (m,N) = (2,250)     =>   nb_iter = 1000;
+% (m,N) = (2,1000)    =>   nb_iter = 1000;
+% (m,N) = (4,1000)    =>   nb_iter = 100;
+% (m,N) = (4,4000)    =>   nb_iter = 100;
+% (m,N) = (8,2000)    =>   nb_iter = 50;
+% (m,N) = (8,4000)    =>   nb_iter = 50;
+% (m,N) = (16,4000)   =>   nb_iter = 25;
+% Il faut noter que Bach utilise 16 distributions différentes alors qu'ici,
+% on en a que 12.
+
+
+[mean_err, v_err] = iter_test_ICA( source_size, nb_source, ICAfun, nb_iter, type, param );
+
+
+
+
+
+
