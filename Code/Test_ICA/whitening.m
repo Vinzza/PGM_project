@@ -6,7 +6,7 @@ N = size( X, 2 );
 epsilon = 0.0001;
 
 % removing the mean of all column
-mu = mean(X);
+mu = mean(X,2);
 X = bsxfun(@minus, X, mu);
 
 % Calculating the Covariance Matrix

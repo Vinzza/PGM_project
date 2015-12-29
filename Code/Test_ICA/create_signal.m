@@ -17,11 +17,9 @@ function signal = create_signal( nb_source, source_size, type, param )
 
         perm = randperm(12); % We only have 12 distributions types
 
-        fprintf('%2i',0);
         % sources
         for i = 1:nb_source
             signal(i,:) = my_gaussian_mixture( source_size, perm(i) );
-            fprintf('\b\b%2i',i);
         end
 
     % TYPE SAME
@@ -32,8 +30,7 @@ function signal = create_signal( nb_source, source_size, type, param )
         
         for i = 1:nb_source
             signal(i,:) = my_gaussian_mixture( source_size, param );
-            fprintf('\b\b%2i',i);
-        end        
+        end
   end
 
 end

@@ -1,6 +1,6 @@
 %% TEST ICA
 
-source_size = 1000;
+source_size = 250;
 % Taille de la source
 % Bach utilise : 250, 1000, 2000 et 4000.
 % En sachant qu'il augmente cette taille en même temps que le nombre de
@@ -11,7 +11,7 @@ nb_source = 2;
 % Bach utilise 2 sources lorsque l'on prend une même distribution
 % (type='same') et il utilise 2, 4, 8 ou 16 sources.
 
-type = 'same';
+type = 'random';
 % On a 2 types de données :
 % 'same' : on prend la même distribution
 %          ça correspond au tableau 1 de Bach
@@ -20,11 +20,26 @@ type = 'same';
 %            parmi toutes les distributions disponibles.
 %            (colonne 'rand' du tableau 1 de Bach, pour nb_source = 2)
 
-param = 1;
+param = 5;
 % Cela selectionne le numéro de la distribution pour un type 'same'.
 % Dans ce cas, il faut un entier entre 1 et 12.
+% Dans le cas du type 'random', ce paramètre est inutilisé.
+% Ci après la correspondance entre les lettres représentant les
+% distributions dans l'article de Bach et les entiers utilisés ici :
+%  1 -> m
+%  2 -> n
+%  3 -> o
+%  4 -> p
+%  5 -> q
+%  6 -> r
+%  7 -> g
+%  8 -> h
+%  9 -> i
+% 10 -> j
+% 11 -> k
+% 12 -> l
 
-ICAfun = @( signal, m ) easi( signal, m );
+ICAfun = @( signal, m ) JADE( signal, m );
 % On doit absolument avoir une fonction qui prend le signal mixé et le
 % nombre de source à extraire et qui renvoie la matrice de demixage.
 % Donc forcement une fonction de la forme :
@@ -33,7 +48,7 @@ ICAfun = @( signal, m ) easi( signal, m );
 % Au niveau des algos, on a :
 % ICAfun = @( signal, m ) JADE( signal, m );
 
-nb_iter = 10;
+nb_iter = 100;
 % Le nombre de fois qu'on itère le calcul de l'erreur. Bach prend les
 % valeurs suivantes en fonction de nb_source(m) et source_size(N) :
 % (m,N) = (2,250)     =>   nb_iter = 1000;
@@ -46,9 +61,15 @@ nb_iter = 10;
 % Il faut noter que Bach utilise 16 distributions différentes alors qu'ici,
 % on en a que 12.
 
+nb_outliers = 120;
+% On considère ici le nombre de composante que l'on va modifier pour en
+% faire des outliers. L'article de Bach en considère entre 0 et 25 et trace
+% le graphe. (voir la fonction que j'ai certainement dû appeler un truc
+% comme plot_error_outliers)
 
-[mean_err, v_err] = iter_test_ICA( source_size, nb_source, ICAfun, nb_iter, type, param );
 
+[mean_err, v_err] = iter_test_ICA( source_size, nb_source, ICAfun, nb_iter,...
+                                                     type, param, nb_outliers );
 
 
 
