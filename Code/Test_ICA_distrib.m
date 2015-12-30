@@ -1,5 +1,11 @@
 %% TEST ICA
 
+addpath( 'Test_ICA' );
+
+%% %%%%%%% %% %% %  %                                      %  % %% %% %%%%%%%%%%
+%%%%% %% %  %                      PARAMETRES                      %  % %% %%%%%
+%%%%%%%%%% %% %% %  %                                      %  % %% %% %%%%%%% %%
+
 source_size = 250;
 % Taille de la source
 % Bach utilise : 250, 1000, 2000 et 4000.
@@ -39,6 +45,8 @@ param = 5;
 % 11 -> k
 % 12 -> l
 
+algo_name = 'JADE'; % Utiliser pour créer le fichier texte du graphe
+
 ICAfun = @( signal, m ) JADE( signal, m );
 % On doit absolument avoir une fonction qui prend le signal mixé et le
 % nombre de source à extraire et qui renvoie la matrice de demixage.
@@ -48,7 +56,7 @@ ICAfun = @( signal, m ) JADE( signal, m );
 % Au niveau des algos, on a :
 % ICAfun = @( signal, m ) JADE( signal, m );
 
-nb_iter = 100;
+nb_iter = 10;
 % Le nombre de fois qu'on itère le calcul de l'erreur. Bach prend les
 % valeurs suivantes en fonction de nb_source(m) et source_size(N) :
 % (m,N) = (2,250)     =>   nb_iter = 1000;
@@ -61,17 +69,32 @@ nb_iter = 100;
 % Il faut noter que Bach utilise 16 distributions différentes alors qu'ici,
 % on en a que 12.
 
-nb_outliers = 120;
+
 % On considère ici le nombre de composante que l'on va modifier pour en
 % faire des outliers. L'article de Bach en considère entre 0 et 25 et trace
 % le graphe. (voir la fonction que j'ai certainement dû appeler un truc
 % comme plot_error_outliers)
+% Si on veut une seule valeur :
+nb_outliers = 120;
+% Si on veut tracer le graphe entier, à partir de 0 jusqu'à 'max_outliers'
+% par pas de 'out_step' :
+out_step = 5;
+max_outliers = 25;
 
 
-[mean_err, v_err] = iter_test_ICA( source_size, nb_source, ICAfun, nb_iter,...
-                                                     type, param, nb_outliers );
+%% %%%%%%% %% %% %  %                                      %  % %% %% %%%%%%%%%%
+%%%%% %% %  %                      EXECUTIONS                      %  % %% %%%%%
+%%%%%%%%%% %% %% %  %                                      %  % %% %% %%%%%%% %%
 
+% % Calculer l'erreur d'une seule configuration
+% mean_err = iter_test_ICA( source_size, nb_source, ICAfun, nb_iter,...
+%                                                      type, param, nb_outliers );
 
+% Calculer et tracer l'erreur en fonction du nombre d'outliers
+v_err = plot_ICA_error_outliers( source_size, nb_source, ICAfun, ...
+                                 nb_iter, type, param, 0:out_step:max_outliers);
 
-
+file_name = sprintf('errOut_%s(m%i,N%i)%s%i_iter%i(outstep%i).data', ...
+             algo_name, nb_source, source_size, type, param, nb_iter, out_step);
+export_plot_in_text( 0:out_step:max_outliers, v_err, file_name );
 
