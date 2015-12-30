@@ -166,16 +166,20 @@ $\alpha=\gamma, \sum_{i}$
 $\alpha=\gamma, \sum_{i}$
 \end{block}
 
-\begin{block}{Introduction}
-\begin{itemize}
-\item some items and $\alpha=\gamma, \sum_{i}$
-\item some items
-\item some items
-\item some items
-\end{itemize}
-$\alpha=\gamma, \sum_{i}$
+\begin{block}{Test}
+\begin{mygraph}{xmin=0, xmax=1, %
+               ymin=0, ymax=1, %
+               sizex=10.5, sizey=10.5}%
+               {nomx=Axe X, nomy=Axe Y}%
+               {0,.5,1}{0,0.25,...,1.05}
+
+\draw[->,red,line width = 2] (.2,.2) -- (.8,.8);
+
+\end{mygraph}
 \end{block}
+
 \end{column}
 \end{columns}
+
 \end{frame}
 \end{document}
