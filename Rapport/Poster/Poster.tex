@@ -80,6 +80,20 @@ For practical purpose, we consider other contrast function than the
 mutual information (too hard to compute), which are invariant by permutation
 and scaling on coordinates and ``minimal'' for independent coordinates.
 \end{block}
+\begin{block}{Results}
+	\begin{figure}
+		\begin{mygraph}{xmin=0, xmax=100, %
+				                ymin=-1, ymax=1,%
+								sizex=3.4, sizey=1.5}%
+								{nomx=Sources, nomy=}%
+	                	{0,50,100}{-1,-.5,\ldots,1.05}%
+	  \draw[zplot, red] plot file {data/init_sources_2.txt};
+	  \draw[zplot, green!70!black] plot file {data/init_sources_3.txt};
+	  \draw[zplot, blue] plot file {data/init_sources_1.txt};
+	\end{mygraph}
+\caption{Results of the main ICA algorithms on simulated data. Each colour corresponds to a signal. The ``Sources'' graph shows the unmixed signal    s and the other ones the results of the algorithms. \label{fig:res}}
+\end{figure}
+\end{block}
 \end{column}
 
 % Deuxième colonne
