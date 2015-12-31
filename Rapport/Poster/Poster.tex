@@ -1,22 +1,13 @@
 \documentclass{beamer}
 \mode<presentation>
 {\usetheme{Berlin}}
-\usepackage[orientation=portrait,size=a0,scale=1.4,debug]{beamerposter}
+\usepackage[orientation=portrait,size=a0,scale=1.4]{beamerposter}
 
 \input{zMC.tex}
 \input{zMCgraphe.tex}
 
 \zzpackages[english]
 
-
-%% \setlength{\textwidth}{460pt}
-%% \setlength{\hoffset}{-54pt}
-%%%\setlength{\textwidth}{495pt}
-%%%\setlength{\hoffset}{-20pt}
-%%%\addtolength{\textheight}{1.6in}
-%%%\setlength{\voffset}{-60pt}
-%%%
-%%%\makeatletter\def\@oddfoot{}\makeatother
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                MACRO LOCALES                                 %
@@ -42,14 +33,25 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 \graphicspath{{ figures/}}
-\title[ICA]{Independant Componant Analysis}
-\author[Lara, Tilquin, Vidal]{Nathan de Lara, Florian Tilquin et Vincent Vidal}
+\title{Independant Componant Analysis}
+\author[Lara, Tilquin, Vidal]
+{
+	\parbox{.25\textwidth}{\includegraphics[height=4cm]{ENS_cachan.pdf}}%
+	\parbox{.5\textwidth}{\hfil \huge Nathan de Lara, Florian Tilquin et Vincent Vidal \hfil}%
+	\parbox{.25\textwidth}{\hspace{8cm} \includegraphics[height=4cm]{UPS.png}}%
+}
+
 \institute[Université Paris-Saclay]{Master Mathématiques, Vision et Apprentissage, ENS Cachan}
 \date{\today}
 
+\usebackgroundtemplate%
+{%
+	    \includegraphics[width=\paperwidth,height=\paperheight]{watermark.jpg}%
+	}
+	\addtobeamertemplate{block begin}{\pgfsetfillopacity{0.8}}{\pgfsetfillopacity{1}}
 \begin{document}
 \begin{frame}{}
-	\vfill
+	\maketitle
 \begin{columns}[T]
 \begin{column}{.48\linewidth}
 \begin{block}{Definition of the problem}
@@ -73,7 +75,7 @@ maximises the independence of $y$.
 \begin{block}{Measure of independance}
 As a measure of independence, we consider, for theoretical purpose,
 the mutual information:\begin{equation}
-\zZ IY = \int_{\zR^p} P(Y) \log\frac{P(Y)}{\Pi_i P_i(Y_i)} \zdx Y.
+\zZ IY = \int_{\zR^p} P(Y) \log\frac{P(Y)}{\prod_i P_i(Y_i)} \zdx Y.
 \end{equation}
 However, as it is too hard to compute, we consider other contrast functions, invariant by permutation, scaling on coordinates and maximal for independant ones.
 For practical purpose, we consider other contrast function than the
@@ -82,30 +84,80 @@ and scaling on coordinates and ``minimal'' for independent coordinates.
 \end{block}
 \begin{block}{Results}
 	\begin{figure}
-		\begin{mygraph}{xmin=0, xmax=100, %
+	\hbox{\hspace{-.8cm}\begin{mygraph}{xmin=0, xmax=100, %
 				                ymin=-1, ymax=1,%
-								sizex=3.4, sizey=1.5}%
+								sizex=15, sizey=6}%
 								{nomx=Sources, nomy=}%
-	                	{0,50,100}{-1,-.5,\ldots,1.05}%
+	                	{0,50,100}{-1,-.5,...,1.05}%
 	  \draw[zplot, red] plot file {data/init_sources_2.txt};
 	  \draw[zplot, green!70!black] plot file {data/init_sources_3.txt};
 	  \draw[zplot, blue] plot file {data/init_sources_1.txt};
 	\end{mygraph}
+	\hspace{-1cm}
+	 \begin{mygraph}{xmin=0, xmax=100, %
+	                 ymin=-1, ymax=1, %
+	                sizex=15, sizey=6}%
+	                {nomx=FastICA, nomy=}%
+	                {0,50,100}{-1,-.5,...,1.05}
+	  \draw[zplot, red] plot file {data/init_fast_1.txt};
+	  \draw[zplot, green!70!black] plot file {data/init_fast_2.txt};
+	  \draw[zplot, blue] plot file {data/init_fast_3.txt};
+	\end{mygraph}\hss}
+	\hbox{\hspace{-.8cm}\begin{mygraph}{xmin=0, xmax=100, %
+	                 ymin=-1, ymax=1, %
+	                sizex=15, sizey=6}%
+	                {nomx=HJ, nomy=}%
+	                {0,50,100}{-1,-.5,...,1.05}
+	  \draw[zplot, red] plot file {data/init_hj_2.txt};
+	  \draw[zplot, green!70!black] plot file {data/init_hj_1.txt};
+	  \draw[zplot, blue] plot file {data/init_hj_3.txt};
+	\end{mygraph}\hspace{-1cm}
+	\begin{mygraph}{xmin=0, xmax=100, %
+		                ymin=-1, ymax=1, %
+		                sizex=15, sizey=6}%
+		                {nomx=JADE, nomy=}%
+		                {0,50,100}{-1,-.5,...,1.05}
+		  \draw[zplot, red] plot file {data/init_jade_3.txt};
+		  \draw[zplot, green!70!black] plot file {data/init_jade_1.txt};
+		  \draw[zplot, blue] plot file {data/init_jade_2.txt};
+		\end{mygraph}\hss}
+		\vspace{-.2cm}
 \caption{Results of the main ICA algorithms on simulated data. Each colour corresponds to a signal. The ``Sources'' graph shows the unmixed signal    s and the other ones the results of the algorithms. \label{fig:res}}
 \end{figure}
+\end{block}
+\begin{block}{Kernel ICA}
+	The idea here is to have a contrast function defined by the correlation of a range of functions over a function vector space $\mathcal{F}$. Thus defining the $\mathcal{F}$-correlation :
+	\begin{equation*}
+		\rho_{\mathcal{F}} (x_1,x_2) = \max\limits_{f_1,f_2 \in \mathcal{F}} \text{corr}(f_1(x_1),f_2(x_2))
+	\end{equation*}
+For $\mathcal{F}$ ``large enough'', we have the following equivalence : $\rho_{\mathcal{F}} (x_1,x_2) = 0 \Longleftrightarrow x_1 \ \& \ x_2$ are independant, hence the ``vector space contrast function'' idea.
+	We then use the \textit{reproducing kernel Hilbert space} to obtain tractable computations over the vector space $\mathcal{F}$.
+\end{block}
+
+\begin{block}{Methods benchmark}
+	We now wish to compare the different algorithms performing ICA we kept :\begin{itemize}
+		\item HJ
+		\item JADE
+		\item FastICA
+		\item KernelICA
+\end{itemize}
+One way to compare these algorithms is by their estimated mixing (ou unmixig) matrices : given numerous generated i.i.d. sources and a mixing matrix, all of these algorithms will return the best estimated mixing matrix according to their corresponding method.
+Thus we could compare the estimations with our original mixing matrix with any norm whatsoever, but as we previously said, the algorithms are not able to find out the original order of the sources or their amplitude.
 \end{block}
 \end{column}
 
 % Deuxième colonne
 \begin{column}{.48\linewidth}
-\begin{block}{Introduction}
-\begin{itemize}
-\item some items and $\alpha=\gamma, \sum_{i}$
-\item some items
-\item some items
-\item some items
-\end{itemize}
-$\alpha=\gamma, \sum_{i}$
+\begin{block}{Amari distance}
+Fortunately, the ``Amari distance'' (which is unfortunately not a distance), gives a criterion of proximity between two matrices regardless to these two problems (amplitude and permutation).
+If $U$ and $V$ are two $n$-by-$n$ matrices, the Amari distance is defined by:
+\begin{equation*}
+	d(U,V) = \frac{1}{2n}\sum\limits_{i=1}^n \left(\frac{\sum\limits_{j=1}^n|a_{ij}|}{\max_j |a_{ij}|}-1 \right)+\frac{1}{2n}\sum\limits_{j=1}^n \left(\frac{\sum\limits_{i=1}^n|a_{ij}|}{\max_i |a_{ij}|}-1 \right)
+\end{equation*}
+with $a_{ij} = (UV^{-1})_{ij}$. The closest it is to 0, the more $U$ and $V$ represents the same components.
+\end{block}
+\begin{block}{Modus operandi}
+We will thereby analyze the results of the algorithms in terms of Amari distance over large number of i.i.d generated sources from several different distributions.
 \end{block}
 \begin{block}{Introduction}
 \begin{itemize}
@@ -169,18 +221,6 @@ $\alpha=\gamma, \sum_{i}$
 \item some items
 \end{itemize}
 $\alpha=\gamma, \sum_{i}$
-\end{block}
-
-\begin{block}{Test}
-\begin{mygraph}{xmin=0, xmax=1, %
-               ymin=0, ymax=1, %
-               sizex=10.5, sizey=10.5}%
-               {nomx=Axe X, nomy=Axe Y}%
-               {0,.5,1}{0,0.25,...,1.05}
-
-\draw[->,red,line width = 2] (.2,.2) -- (.8,.8);
-
-\end{mygraph}
 \end{block}
 
 \end{column}
