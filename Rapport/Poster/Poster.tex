@@ -49,39 +49,60 @@
 	    \includegraphics[width=\paperwidth,height=\paperheight]{watermark.jpg}%
 	}
 	\addtobeamertemplate{block begin}{\pgfsetfillopacity{0.8}}{\pgfsetfillopacity{1}}
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                DEBUT DOCUMENT                                %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
+        
 \begin{document}
 \begin{frame}{}
 	\maketitle
 \begin{columns}[T]
 \begin{column}{.48\linewidth}
+
+%% --------- ---- -  -        SEPARATION DE BLOCS         -  - ---- --------- %%
+
 \begin{block}{Definition of the problem}
-The general problem can be formalised this way.
-Suppose we have some random variables $x\in\zR^p$ which correspond to
-a mix of some primitive sources $s\in\zR^n$. The aim is to extract
-from $x$ every source $s_i$. To do so, we suppose here that:\\
--- the sources are independents\\
--- the mix is linear and instantaneous\\
--- at most one source has a gaussian distribution.\\
-We write:
+We have some random variables $x\in\zR^p$ which correspond to
+a mix of some primitive sources $s\in\zR^n$. The aim is to retrieve a estimation $y$ of every source $s_i$, given only $x$. We not $A$ the mixing matrix and $W$ the separation matrix:
 \begin{equation}
- x = A s \ \ \mbox{and} \ \ y = W x,
+ x = A s \ \ \mbox{and} \ \ y = W x.
 \end{equation}
 
-where $A$ is the mixing matrix, $W$ the separation matrix and $y$ the
-estimation of the sources. The goal is then to find the matrix $W$ that
-maximises the independence of $y$.
-	 )
+We suppose :\begin{itemize}
+\item \ the sources are independents
+\item \ the mix is linear and instantaneous
+\item \ at most one source has a gaussian distribution.  
+\end{itemize}
 \end{block}
+
+%% --------- ---- -  -        SEPARATION DE BLOCS         -  - ---- --------- %%
+
 \begin{block}{Measure of independance}
-As a measure of independence, we consider, for theoretical purpose,
-the mutual information:\begin{equation}
-\zZ IY = \int_{\zR^p} P(Y) \log\frac{P(Y)}{\prod_i P_i(Y_i)} \zdx Y.
+We want to find $W$ that maximise the independance of $y=Wx$.
+
+The mutual information is theoretically the best measure:\begin{equation}
+\zZ IY = \int_{\zR^p} P(Y) \log\frac{P(Y)}{\prod_i P_i(Y_i)} \zdx Y,
 \end{equation}
-However, as it is too hard to compute, we consider other contrast functions, invariant by permutation, scaling on coordinates and maximal for independant ones.
-For practical purpose, we consider other contrast function than the
-mutual information (too hard to compute), which are invariant by permutation
-and scaling on coordinates and ``minimal'' for independent coordinates.
+but the information theory gives us other quantity to work with.
+
+(... parler de la gaussianité/correlation/... ...)
+
+We can show that:
+\begin{equation}
+        \zZ IY + \sum_i\zZ G{Y_i} = \zZ GY + \zZ CY.
+\end{equation}
+
+
+\begin{center}
+  \includegraphics[width=.5\textwidth]{../figure_tikz/theory_info}
+\end{center}
+
 \end{block}
+
+%% --------- ---- -  -        SEPARATION DE BLOCS         -  - ---- --------- %%
+
+
 \begin{block}{Results}
 	\begin{figure}
 	\hbox{\hspace{-.8cm}\begin{mygraph}{xmin=0, xmax=100, %
