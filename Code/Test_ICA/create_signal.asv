@@ -10,6 +10,7 @@ function signal = create_signal( nb_source, source_size, type, param )
     
     % TYPE RANDOM
     case 'random'
+
         % sources
         for i = 1:nb_source
             signal(i,:) = my_gaussian_mixture( source_size, randi(12) );
@@ -31,7 +32,7 @@ end
 % LOCAL FUNCTION
 
 function s = my_gaussian_mixture( m, nb )
-% the letter correspond to the indexes in the Jordan and Bach paper.
+% the letter correspond to the indice in the Jordan and Bach paper.
   switch nb
     case 1 % m
       s = mixture_gaussian( m, [1 2 2 1], [-1 -.33 .33 1], [.16  .16 .16 .16] );

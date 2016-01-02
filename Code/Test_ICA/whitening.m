@@ -3,7 +3,7 @@ function [X_white, mu, white_matrix] = whitening( X )
 m = size( X, 1 );
 N = size( X, 2 );
 
-epsilon = 0.0001;
+epsilon = 0.000001;
 
 % removing the mean of all column
 mu = mean(X,2);
