@@ -1,7 +1,7 @@
 \documentclass{beamer}
 \mode<presentation>
-{\usetheme{Berlin}}
-\usepackage[orientation=portrait,size=a1,scale=1.0]{beamerposter}
+{\usetheme{Rochester}}
+\usepackage[orientation=portrait,size=a1,scale=1.2]{beamerposter}
 
 \input{zMC.tex}
 \input{zMCgraphe.tex}
@@ -42,16 +42,16 @@
 \author[Lara, Tilquin, Vidal]
 {
 	\parbox{.25\textwidth}{\includegraphics[height=4cm]{ENS_cachan.pdf}}%
-	\parbox{.5\textwidth}{\hfil \huge Nathan de Lara, Florian Tilquin et Vincent Vidal \hfil}%
+	\parbox{.5\textwidth}{\hfil \large \textbf{Nathan de Lara, Florian Tilquin, Vincent Vidal} \hfil}%
 	\parbox{.25\textwidth}{\hspace{2cm} \includegraphics[height=4cm]{UPS.png}}%
 }
 
-\institute[Université Paris-Saclay]{\LARGE Master Mathématiques, Vision et Apprentissage}
+\institute[Université Paris-Saclay]{\huge \textbf{Master Mathématiques, Vision et Apprentissage}}
 \date{}
 
 \usebackgroundtemplate%
 {%
-	    \includegraphics[width=\paperwidth,height=\paperheight]{watermark.jpg}%
+	    \includegraphics[width=\paperwidth,height=\paperheight]{argent.jpg}%
 	}
 	\addtobeamertemplate{block begin}{\pgfsetfillopacity{0.8}}{\pgfsetfillopacity{1}}
 
@@ -83,28 +83,28 @@ In order to retrieve the sources, we suppose that:\begin{itemize}
 
 %% --------- ---- -  -        SEPARATION DE BLOCS         -  - ---- --------- %%
 
-\begin{block}{Measure of independance}
+\begin{block}{Measure of independence}
 We want to find $W$ that maximises the independence of $y=Wx$.
 
-The information theory gives us quantity to work with, based on the Kullback-Leibler divergence:
+The information theory provides a measure of independence based on the Kullback-Leibler divergence:
 \begin{equation}
   \Kl PQ = \int_{\zR^n} P(x) \log\frac{P(x)}{Q(x)} \zdx x.
 \end{equation}
-With $\zD G$ the gaussian distribution manifold and $\zD P$ the product one, we define
+With $\zD G$ the Gaussian distribution manifold and $\zD P$ the product one, we define
 
 \begin{figure}
 \label{fig:sketch}
 \centering
   \includegraphics[height = 11cm, width=\textwidth]{../figure_tikz/theory_info}
-  \caption{Representation of the distribution and the different projections on the manifolds $\zD P$ and $\zD G$ and the different quantities that can be define with the Kullback Leibler divergence.}
+  \caption{Representation of the distribution and the different projections on the manifolds $\zD P$ and $\zD G$ and the different quantities that can be defined with the Kullback Leibler divergence.}
 \end{figure}
 
-The Pythagorean theorem gives the relation
+The Pythagorean theorem implies:
 \begin{equation}
 \label{eqn:pyt}
         \zZ IY + \sum_i\zZ G{Y_i} = \zZ GY + \zZ CY.
 \end{equation}
-If the mutual information $\zZ I P$ appears to be the best one to use, it is to hard to compute.
+If the mutual information $\zZ I P$ appears to be the best one to use, it is too hard to compute.
 The equation \ref{eqn:pyt} justifies the use of the non-gaussianity, correlation or even negentropy as contrast functions.
 
 \end{block}
@@ -112,14 +112,13 @@ The equation \ref{eqn:pyt} justifies the use of the non-gaussianity, correlation
 %% --------- ---- -  -        SEPARATION DE BLOCS         -  - ---- --------- %%
 
 \begin{block}{Performance evaluation}
-We use the ``Amari distance'', equation \ref{eqn:amari}, which gives a criterion of proximity between two matrices, to evaluate the performance of an algorithm.
-
+The ``Amari distance'', equation \ref{eqn:amari}, gives a criterion of proximity between two matrices, to evaluate the performance of an algorithm.
 If $U$ and $V$ are two $n$-by-$n$ matrices, the Amari distance is defined by:
 \begin{equation} \label{eqn:amari}
 	d(U,V) = \frac{1}{2n}\sum\limits_{i=1}^n \left(\frac{\sum\limits_{j=1}^n|a_{ij}|}{\max_j |a_{ij}|}-1 \right)+\frac{1}{2n}\sum\limits_{j=1}^n \left(\frac{\sum\limits_{i=1}^n|a_{ij}|}{\max_i |a_{ij}|}-1 \right)
 \end{equation}
 with $a_{ij} = (UV^{-1})_{ij}$.
-This function has the advantage to be invariant by scaling factors and permutation of the components of the matrices.
+This function, which is not an actual distance, has the advantage to be invariant by scaling factors and permutation of the components of the matrices.
 
 \end{block}
 
@@ -127,10 +126,13 @@ This function has the advantage to be invariant by scaling factors and permutati
 
 \begin{block}{Algorithms}
 Several algorithms have been developed to perform ICA, among those we can cite:
-\hbox to \textwidth{\hss\textbullet\ HJ \hss\textbullet\ JADE \hss\textbullet\ FastICA \hss\textbullet\ KernelICA \hss }
+\begin{itemize}
+\item HJ: one of the first algorithms for ICA by Hérault and Jutten who pioneered the \textit{blind source separation problem} in the 1980s. It is inspired from the neural network principle.
+\item JADE: for Joint Approximate Diagonalization of Eigenmatrices. It belongs to the family of the cumulants algorithms initially introduced by Comon in the early 1990s and has a complexity of $\mathcal{O}(n^4)$.
+\item FastICA: proposed by Hyvärinen in the late 1990s, it uses non-gaussianity as an approximation of independence and performs approximate Newton iterations.
+\item KGV: for Kernel Generalized Variance. Introduced in the early 2000s by Bach and Jordan, this method outperforms most of the previous algorithms and is particularly resistant to outliers. However, it is more computationally expensive.
+\end{itemize}
 
-%One way to compare these algorithms is by their estimated mixing (ou unmixig) matrices : given numerous generated i.i.d. sources and a mixing matrix, all of these algorithms will return the best estimated mixing matrix according to their corresponding method.
-%Thus we could compare the estimations with our original mixing matrix with any norm whatsoever, but as we previously said, the algorithms are not able to find out the original order of the sources or their amplitude.
 \end{block}
 
 %% --------- ---- -  -        SEPARATION DE BLOCS         -  - ---- --------- %%
@@ -142,17 +144,17 @@ Several algorithms have been developed to perform ICA, among those we can cite:
 \begin{column}{.48\linewidth}
 
 \begin{block}{Hérault and Jutten (HJ) algorithm}
-This method is based on the neural network principle.
-We write $W = \zp{I_n+\widetilde W}^{-1}$ and for a pair of given functions $\zp{f,\:g}$, we adapt the $\widetilde W$ as follows:\begin{equation}
+This method is based on the neural network principle. Writing $W = \zp{I_n+\widetilde W}^{-1}$, for a pair of given functions $\zp{f,\:g}$, the algorithm estimates:
+\begin{equation}
 \widetilde W_{ij} = f(y_i) g(y_j).
 \end{equation}
 \end{block}
 
 %% --------- ---- -  -        SEPARATION DE BLOCS         -  - ---- --------- %%
 
-\begin{block}{Jade algorithm}
-Several methods are based on the cumulants. The aim here is to annul all the cross cumulants of order $4$.
-Thus, we diagonalize the cumulant tensor which is equivalent to minimise the following contrast function:
+\begin{block}{JADE algorithm}
+Several methods are based on the cumulants. The aim in JADE is to annul all the cross cumulants of order $4$.
+The cumulant tensor is diagonalized which is equivalent to minimizing the following contrast function:
 \begin{equation}
   c\zp{x} = \sum_{i,k,l}\zp[b]{\zop{Cum}{x_i,x_i^*,x_k,x_l}}^2.
 \end{equation}
@@ -161,34 +163,49 @@ Thus, we diagonalize the cumulant tensor which is equivalent to minimise the fol
 %% --------- ---- -  -        SEPARATION DE BLOCS         -  - ---- --------- %%
 
 \begin{block}{FastICA algorithm}
-The FastICA algorithm is based on the information theory. We want here to maximise the marginal non-gaussianity on the whitened data, relying on a non linear quadratic function $f$ with the following rule:\begin{equation}
+The FastICA algorithm is based on the information theory. Non-gaussianity is used a proxy for independence. Given a quadratic function $f$, the algorithm performs:
+\begin{equation}
   \widetilde W_{t+1} = \zesp{X.\ztr{f(\ztr{W_t}X)}} - \zesp{f''(\ztr{W_t}X)}W_t,
 \end{equation}
-with $W_t$ the normalise vector of $\widetilde W_t$. In our case, we will use $f(x) = \frac{x^4}4$. We may use $f(x) = \log \cosh x$ or $f(x) = \exp\zp{-\frac{x^2}2}$ too.
+where $W_t$ is the normalized vector of $\widetilde W_t$. For experimentation, we use $f(x) = \frac{x^4}4$.
 \end{block}
 
 %% --------- ---- -  -        SEPARATION DE BLOCS         -  - ---- --------- %%
 
-\begin{block}{Kernel ICA}
-\vspace{3cm}... À faire ...\vspace{3cm}
+\begin{block}{Kernel Generalized Variance algorithm}
+Given a RKHS $\mathcal{F}$, this algorithm seeks to ??minimize/maximize?? the Kernel Generalized Variance defined as:
+\begin{equation}
+\widehat{\delta}_{\mathcal{F}}=\underset{i}{\prod}(1-\rho_i^2)
+\end{equation}
+where the $\rho_i$ are the canonical kernel correlations between the observations components.
 \end{block}
 
 %% --------- ---- -  -        SEPARATION DE BLOCS         -  - ---- --------- %%
 
-\begin{block}{Modus operandi}
-We have consider $m$ distribution of probability, each sampled $N$ times.
-
-We mixed them with a random matrix, whitened this data and apply the ICA algorithm.
-
-Eventually, we compare the matrix found with the true matrix using the Amari distance.
-\end{block}
+%\begin{block}{Modus operandi}
+%We have consider $m$ distribution of probability, each sampled $N$ times.
+%
+%We mixed them with a random matrix, whitened this data and apply the ICA algorithm.
+%
+%Eventually, we compare the matrix found with the true matrix using the Amari distance.
+%\end{block}
 
 %% --------- ---- -  -        SEPARATION DE BLOCS         -  - ---- --------- %%
 
 \begin{block}{Results}
-	\begin{figure}
-	\includegraphics[width=\textwidth]{unmix_images}
-\caption{Results of the main ICA algorithms on simulated data. Each colour corresponds to a signal. The ``Sources'' graph shows the unmixed signal    s and the other ones the results of the algorithms. \label{fig:res}}
+
+\begin{figure}
+\label{distres}
+\centering
+\input{Tableau_Nathan.txt}
+\caption{This table presents the average Amari distance obtained with the listed algorithms for random mix two sources of size 250 sampled with twelve different distributions. Finally, the last line presents the same measure for sources whose distribution is randomly selected among the twelve.}
+\end{figure}
+
+\begin{figure}
+\label{imres}
+\centering
+\includegraphics[width=18cm]{unmix_images}
+\caption{Application of !!!algo!!! to images separations. The first line presents the original sources, the second one the mix and the last one the estimations.}
 \end{figure}
 \end{block}
 
