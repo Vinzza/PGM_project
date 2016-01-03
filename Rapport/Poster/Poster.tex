@@ -51,7 +51,7 @@
 
 \usebackgroundtemplate%
 {%
-	    \includegraphics[width=\paperwidth,height=\paperheight]{argent.jpg}%
+	    \includegraphics[width=\paperwidth,height=\paperheight]{cloud.jpg}%
 	}
 	\addtobeamertemplate{block begin}{\pgfsetfillopacity{0.8}}{\pgfsetfillopacity{1}}
 
@@ -84,13 +84,12 @@ In order to retrieve the sources, we suppose that:\begin{itemize}
 %% --------- ---- -  -        SEPARATION DE BLOCS         -  - ---- --------- %%
 
 \begin{block}{Measure of independence}
-We want to find $W$ that maximises the independence of $y=Wx$.
-
+The idea to solve the problem~\ref{eqn:pb} is to estimate $W$ such that the independence of $y$ is maximal.
 The information theory provides a measure of independence based on the Kullback-Leibler divergence:
 \begin{equation}
   \Kl PQ = \int_{\zR^n} P(x) \log\frac{P(x)}{Q(x)} \zdx x.
 \end{equation}
-With $\zD G$ the Gaussian distribution manifold and $\zD P$ the product one, we define
+With $\zD G$ the Gaussian distribution manifold and $\zD P$ the product one, we define:
 
 \begin{figure}
 \label{fig:sketch}
@@ -99,7 +98,7 @@ With $\zD G$ the Gaussian distribution manifold and $\zD P$ the product one, we 
   \caption{Representation of the distribution and the different projections on the manifolds $\zD P$ and $\zD G$ and the different quantities that can be defined with the Kullback Leibler divergence.}
 \end{figure}
 
-The Pythagorean theorem implies:
+As mentioned in~\cite{}, the Pythagorean theorem implies:
 \begin{equation}
 \label{eqn:pyt}
         \zZ IY + \sum_i\zZ G{Y_i} = \zZ GY + \zZ CY.
@@ -130,25 +129,25 @@ Several algorithms have been developed to perform ICA, among those we can cite:
 \item HJ: one of the first algorithms for ICA by Hérault and Jutten who pioneered the \textit{blind source separation problem} in the 1980s. It is inspired from the neural network principle.
 \item JADE: for Joint Approximate Diagonalization of Eigenmatrices. It belongs to the family of the cumulants algorithms initially introduced by Comon in the early 1990s and has a complexity of $\mathcal{O}(n^4)$.
 \item FastICA: proposed by Hyvärinen in the late 1990s, it uses non-gaussianity as an approximation of independence and performs approximate Newton iterations.
-\item KGV: for Kernel Generalized Variance. Introduced in the early 2000s by Bach and Jordan, this method outperforms most of the previous algorithms and is particularly resistant to outliers. However, it is more computationally expensive.
+\item KernelICA: Introduced in the early 2000s by Bach and Jordan, this method outperforms most of the previous algorithms and is particularly resistant to outliers. However, it is more computationally expensive.
 \end{itemize}
 
 \end{block}
 
 %% --------- ---- -  -        SEPARATION DE BLOCS         -  - ---- --------- %%
-
-
-\end{column}
-
-% Deuxième colonne
-\begin{column}{.48\linewidth}
-
 \begin{block}{Hérault and Jutten (HJ) algorithm}
 This method is based on the neural network principle. Writing $W = \zp{I_n+\widetilde W}^{-1}$, for a pair of given functions $\zp{f,\:g}$, the algorithm estimates:
 \begin{equation}
 \widetilde W_{ij} = f(y_i) g(y_j).
 \end{equation}
 \end{block}
+
+\end{column}
+
+% Deuxième colonne
+\begin{column}{.48\linewidth}
+
+
 
 %% --------- ---- -  -        SEPARATION DE BLOCS         -  - ---- --------- %%
 
@@ -172,7 +171,7 @@ where $W_t$ is the normalized vector of $\widetilde W_t$. For experimentation, w
 
 %% --------- ---- -  -        SEPARATION DE BLOCS         -  - ---- --------- %%
 
-\begin{block}{Kernel Generalized Variance algorithm}
+\begin{block}{KernelICA algorithm}
 Given a RKHS $\mathcal{F}$, this algorithm seeks to ??minimize/maximize?? the Kernel Generalized Variance defined as:
 \begin{equation}
 \widehat{\delta}_{\mathcal{F}}=\underset{i}{\prod}(1-\rho_i^2)
@@ -197,16 +196,24 @@ where the $\rho_i$ are the canonical kernel correlations between the observation
 \begin{figure}
 \label{distres}
 \centering
+\resizebox{\textwidth}{!}{
 \input{Tableau_Nathan.txt}
-\caption{This table presents the average Amari distance obtained with the listed algorithms for random mix two sources of size 250 sampled with twelve different distributions. Finally, the last line presents the same measure for sources whose distribution is randomly selected among the twelve.}
+\input{Tableau2.txt}}
+\caption{\textbf{Left:} Average Amari distance re-scaled by 100 obtained with the listed algorithms for random mix $m=2$ sources of size $N=250$ sampled with twelve different distributions. \textbf{Right:} Same measure for $m$ sources of size $N$ whose distribution is randomly selected among the twelve. The best results are in bold font. An X is put when a standard desktop computer could not compute the result.}
 \end{figure}
 
 \begin{figure}
 \label{imres}
 \centering
-\includegraphics[width=18cm]{unmix_images}
-\caption{Application of !!!algo!!! to images separations. The first line presents the original sources, the second one the mix and the last one the estimations.}
+\includegraphics[width=16cm]{unmix4.png}
+\caption{Application of JADE algorithm to images separation. The first line presents the original sources, the second one the mix and the last one the estimations.}
 \end{figure}
+\end{block}
+
+\begin{block}{References}
+\bibliographystyle{alpha}
+\bibliography{Biblio}{}
+\nocite{*}
 \end{block}
 
 \end{column}
