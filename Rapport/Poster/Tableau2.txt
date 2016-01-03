@@ -1,0 +1,14 @@
+\def\foo#1#2#3#4{#1&#2&#3&#4\\}
+\def\bar#1#2{\hbox to #1\textwidth{\hss#2\hss}}
+\def\fbar{\bfseries}
+\begin{tabular}{|cc|cccc|}\hline
+\bar{.05}{m}&\bar{.05}{N}&\bar{.1}{JADE}&\bar{.1}{HJ}&\bar{.1}{FastICA}&\bar{.15}{Kernel ICA}\\\hline
+2&250&\foo{8.35}{7.56}{10.45}{\fbar6.06}
+&1000&\foo{3.66}{3.39}{4.42}{\fbar2.38}\hline
+4&1000&\foo{11.88}{58.52}{12.20}{9.72}
+&4000&\foo{5.33}{83.07}{5.80}{3.86}\hline
+8&2000&\foo{19.75}{X}{19.40}{19.15}
+&4000&\foo{13.06}{X}{13.29}{9.71}\hline
+16&4000&\foo{31.81}{X}{28.92}{X}
+&8000&\foo{20.56}{X}{27.89}{X}\hline
+\end{tabular}
