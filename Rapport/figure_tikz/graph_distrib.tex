@@ -1,0 +1,61 @@
+\documentclass[tikz,border=2pt]{standalone}
+
+\input{../zMC.tex}
+\input{../zMCgraphe.tex}
+
+\begin{document}
+
+\def\xn{-2}
+\def\xm{2}
+\def\yn{0}
+\def\ym{1}
+
+\begin{tikzpicture}[font=\sffamily, scale=2]
+
+  \pgfmathsetmacro\gradx{.1}
+  \pgfmathsetmacro\grady{.1}
+
+  \foreach \nn/\sx/\sy in {
+     1/0/0,
+     2/5/0,
+     3/10/0,
+     4/15/0,
+     5/20/0,
+     6/25/0,
+     7/0/-1.5,
+     8/5/-1.5,
+     9/10/-1.5,
+     10/15/-1.5,
+     11/20/-1.5,
+     12/25/-1.5}{
+
+
+  \begin{scope}[xscale=.25, shift = {(\sx,\sy)}]
+  \foreach \x in {-2,...,2}{
+    \draw[very thin, color=black, dotted] (\x,\yn) -- (\x,\ym);
+    \draw (\x,\yn+\gradx) -- (\x,\yn)
+          node[font=\tiny, anchor=north] {\pgfmathprintnumber{\x}};
+  };
+  \foreach \y in {0,.5,1}{
+    \draw[very thin, color=black, dotted] (\xn,\y) -- (\xm,\y); 
+    \draw (\xn+\grady,\y) -- (\xn,\y)
+          node[font=\tiny, anchor=east] {\pgfmathprintnumber{\y}};
+  };
+  \draw (\xn,\yn) -- node[font=\scriptsize, below=0.3cm] {Distribution \nn} (\xm,\yn);
+  \draw (\xn,\yn) -- (\xn,\ym);
+  \draw (\xn,\ym) -- (\xm,\ym);
+  \draw (\xm,\yn) -- (\xm,\ym);
+
+  \begin{scope}
+    \clip (\xn,\yn) rectangle (\xm,\ym);
+
+  \draw plot file {../data/distrib_\nn.data};
+  \fill[blue!50, opacity=.3] plot file {../data/distrib_\nn.data};
+
+  \end{scope}
+  \end{scope}
+  }
+
+\end{tikzpicture}
+
+\end{document}
