@@ -1,7 +1,7 @@
 \documentclass{beamer}
 \mode<presentation>
 {\usetheme{Rochester}}
-\usepackage[orientation=portrait,size=a1,scale=1.2]{beamerposter}
+\usepackage[orientation=portrait,size=a1,scale=0.9]{beamerposter}
 
 \input{zMC.tex}
 \input{zMCgraphe.tex}
@@ -89,14 +89,41 @@ The information theory provides a measure of independence based on the Kullback-
 \begin{equation}
   \Kl PQ = \int_{\zR^n} P(x) \log\frac{P(x)}{Q(x)} \zdx x.
 \end{equation}
-With $\zD G$ the Gaussian distribution manifold and $\zD P$ the product one, we define:
 
+
+
+\hbox to \textwidth{
+\begin{minipage}{.46\textwidth}
+With $\zD G$ the Gaussian distribution manifold, $\zD P$ the product one and $P^{\zD G}$ and $P^{\zD P}$ the projection of those distribution. We define:
+\begin{itemize}
+
+\item \ The Mutual Information
+\begin{equation}
+\zZ IY = \Kl {\zpbig2 P(Y)}{\Pi_i P_i(Y_i)}  
+\end{equation}
+
+\item \ The Non-Gaussianity
+\begin{equation}
+  \zZ GY = \Kl{Y}{\Ng{\zesp Y}{\Sigma_Y}\zpbig2}
+\end{equation}
+
+\item \ The Correlation
+\begin{equation}
+  \Kl{\zpbig2 P(Y)^{\zD G}}{P(Y)^{\zD P\wedge\zD G}}
+\end{equation}
+\end{itemize}
+
+\end{minipage}
+\hss
+\begin{minipage}{.5\textwidth}
 \begin{figure}
 \label{fig:sketch}
 \centering
   \includegraphics[height = 11cm, width=\textwidth]{../figure_tikz/theory_info}
-  \caption{Representation of the distribution and the different projections on the manifolds $\zD P$ and $\zD G$ and the different quantities that can be defined with the Kullback Leibler divergence.}
+  \caption{Representation of the distribution and the different projections on the manifolds $\zD P$ and $\zD G$.}
 \end{figure}
+\end{minipage}
+}
 
 As mentioned in~\cite{}, the Pythagorean theorem implies:
 \begin{equation}
@@ -205,7 +232,7 @@ where the $\rho_i$ are the canonical kernel correlations between the observation
 \begin{figure}
 \label{imres}
 \centering
-\includegraphics[width=16cm]{unmix4.png}
+\includegraphics[width=16cm]{../../image_test/unmix4.png}
 \caption{Application of JADE algorithm to images separation. The first line presents the original sources, the second one the mix and the last one the estimations.}
 \end{figure}
 \end{block}
