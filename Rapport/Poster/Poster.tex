@@ -140,8 +140,8 @@ The equation \ref{eqn:pyt} justifies the use of the non-gaussianity, correlation
 %% --------- ---- -  -        SEPARATION DE BLOCS         -  - ---- --------- %%
 
 \begin{block}{Performance evaluation}
-The ``Amari distance'', equation \ref{eqn:amari}, gives a criterion of proximity between two matrices, to evaluate the performance of an algorithm.
-If $U$ and $V$ are two $n$-by-$n$ matrices, the Amari distance is defined by:
+The ``Amari error'', equation \ref{eqn:amari}, gives a criterion of proximity between two matrices, to evaluate the performance of an algorithm.
+If $U$ and $V$ are two $n$-by-$n$ matrices, the Amari error is defined by:
 \begin{equation} \label{eqn:amari}
 	d(U,V) = \frac{1}{2n}\sum\limits_{i=1}^n \left(\frac{\sum\limits_{j=1}^n|a_{ij}|}{\max_j |a_{ij}|}-1 \right)+\frac{1}{2n}\sum\limits_{j=1}^n \left(\frac{\sum\limits_{i=1}^n|a_{ij}|}{\max_i |a_{ij}|}-1 \right)
 \end{equation}
@@ -201,11 +201,11 @@ where $W_t$ is the normalized vector of $\widetilde W_t$. For experimentation, w
 %% --------- ---- -  -        SEPARATION DE BLOCS         -  - ---- --------- %%
 
 \begin{block}{KernelICA algorithm}
-Given a RKHS $\mathcal{F}$, this algorithm seeks to ??minimize/maximize?? the Kernel Generalized Variance defined as:
+Given a reproducing kernel Hilbert space $\mathcal{F}$, this algorithm seeks to minimize the Kernel Generalized Variance defined as:
 \begin{equation}
-\widehat{\delta}_{\mathcal{F}}=\underset{i}{\prod}(1-\rho_i^2)
+	\widehat{\delta}_{\mathcal{F}}=-\frac{1}{2}\log \underset{i}{\prod}(1-\rho_i^2)
 \end{equation}
-where the $\rho_i$ are the canonical kernel correlations between the observations components.
+where the $\rho_i$ are the kernel canonical correlations between the observations components, obtained with computations over the observations Gram matrices.
 \end{block}
 
 %% --------- ---- -  -        SEPARATION DE BLOCS         -  - ---- --------- %%
@@ -215,7 +215,7 @@ where the $\rho_i$ are the canonical kernel correlations between the observation
 %
 %We mixed them with a random matrix, whitened this data and apply the ICA algorithm.
 %
-%Eventually, we compare the matrix found with the true matrix using the Amari distance.
+%Eventually, we compare the matrix found with the true matrix using the Amari error.
 %\end{block}
 
 %% --------- ---- -  -        SEPARATION DE BLOCS         -  - ---- --------- %%
@@ -228,7 +228,7 @@ where the $\rho_i$ are the canonical kernel correlations between the observation
 \resizebox{\textwidth}{!}{
 \input{Tableau_Nathan.txt}
 \input{Tableau2.txt}}
-\caption{\textbf{Left:} Average Amari distance re-scaled by 100 obtained with the listed algorithms for random mix $m=2$ sources of size $N=250$ sampled with twelve different distributions. \textbf{Right:} Same measure for $m$ sources of size $N$ whose distribution is randomly selected among the twelve. The best results are in bold font. An X is put when a standard desktop computer could not compute the result.}
+\caption{\textbf{Left:} Average Amari error re-scaled by 100 obtained with the listed algorithms for random mix $m=2$ sources of size $N=250$ sampled with twelve different distributions. \textbf{Right:} Same measure for $m$ sources of size $N$ whose distribution is randomly selected among the twelve. The best results are in bold font. An X is put when a standard desktop computer could not compute the result.}
 \end{figure}
 
 \begin{figure}
@@ -240,11 +240,11 @@ where the $\rho_i$ are the canonical kernel correlations between the observation
 \end{block}
 
 \begin{block}{References}
-	\begin{footnotesize}
+	\begin{tiny}
 \bibliographystyle{alpha}
 \bibliography{Biblio}{}
 \nocite{*}
-	\end{footnotesize}
+	\end{tiny}
 \end{block}
 
 \end{column}
