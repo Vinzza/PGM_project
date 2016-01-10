@@ -140,7 +140,7 @@ The \textbf{correlation}:
 \node[anchor=north east,zdis] at (.05,.04) {$P^{\zD G\wedge \zD P}$};
 \foreach \x/\y in{.8/.9,.04/.04,.8/-.045,-.02/.7}{\draw[fill,shift={(\x,\y)}, xscale=.80] (0,0) circle (.013);}
 \end{tikzpicture}  
-\caption{Representation of a distribution $P$ and the different projections on the exponential families $\zD P$ and $\zD G$. We have represent, on the paths between the distributions, the quantity associated to the Kullback-Leibler between those distributions.}\label{fig:pythagorean}
+\caption{Representation of a distribution $P$ and the different projections on the exponential families $\zD P$ and $\zD G$. On the paths between the distributions are the quantities associated to the Kullback-Leibler divergence between those distributions.}\label{fig:pythagorean}
 \end{figure}
 
 Using the Pythagorean theorem and the two decompositions of $\Kl P{P^{\zD P\wedge\zD G}}$, through $P^{\zD P}$ or $P^{\zD G}$, shown in the Figure \ref{fig:pythagorean}, we can prove that:
@@ -174,15 +174,6 @@ We write $W = \zp{I_n+\widetilde W}^{-1}$ and for a pair of given functions $\zp
 
 %% --------- ---- -  -            -----------             -  - ---- --------- %%
 
-\subsection{EASI algorithm}
-For a given contrast function $\psi$ and a cost function $J_\psi$, the algorithm iterates as follows:
-\begin{equation}
-  W_{t+1} = \zp{I_n-\lambda_t\nabla J_\psi(y_t)} W_t.
-\end{equation}
-The EASI algorithm corresponds to the functions \hbox{$\psi(y) = \sum \zp[b]{y_i}^4$} and $J_\psi(y) = \zesp{\psi(y)}$.
-
-%% --------- ---- -  -            -----------             -  - ---- --------- %%
-
 \subsection{Jade algorithm}
 Several methods are based on the cumulants. The goal here is to annul all the cross cumulants of order $4$.
 Thus, the idea is to diagonalize the cumulant tensor which is equivalent to minimise the following contrast function:
@@ -198,15 +189,50 @@ The FastICA algorithm is based on the information theory. The goal here is to ma
 \end{equation}
 with $W_t$ the normalise vector of $\widetilde W_t$. In our experiments, we used $f(x) = \frac{x^4}4$. But it is possible to use $f(x) = \log \cosh x$ or $f(x) = \exp\zp{-\frac{x^2}2}$ as well.
 
-
+\subsection{Kernel ICA algorithm}
+Given a reproducing kernel Hilbert space $\mathcal{F}$, this algorithm seeks to minimize the Kernel Generalized Variance defined as:
+\begin{equation}
+	\widehat{\delta}_{\mathcal{F}}=-\frac{1}{2}\log \underset{i}{\prod}(1-\rho_i^2)
+\end{equation}
+where the $\rho_i$ are the kernel canonical correlations between the observations components, obtained with computations over the observations Gram matrices.
 
 %% ------- -- -- -  -                                      -  - -- -- --------%%
 %---- -- -  -                      Resultats                       -  - -- ----%
 %%-------- -- -- -  -                                      -  - -- -- ------- %%
 
 \section{Results}
-First, we decided to apply the main algorithm to simple simulated data.
-For three sinusoidal signals of arbitrary frequencies and phases, we obtain the results in figure \ref{fig:res}, which are good for all methods. We only have to remark that FastICA doesn't retrieve the sign of the signal, which is irrelevant.
+\paragraph{Performance measure}
+The ``Amari divergence'', equation \ref{eqn:amari}, gives a criterion of proximity between two matrices, to evaluate the performance of an algorithm.
+If $U$ and $V$ are two $n$-by-$n$ matrices, the Amari error is defined by:
+\begin{equation} \label{eqn:amari}
+	d(U,V) = \frac{1}{2n}\sum\limits_{i=1}^n \left(\frac{\sum\limits_{j=1}^n|a_{ij}|}{\max_j |a_{ij}|}-1 \right)+\frac{1}{2n}\sum\limits_{j=1}^n \left(\frac{\sum\limits_{i=1}^n|a_{ij}|}{\max_i |a_{ij}|}-1 \right)
+\end{equation}
+with $a_{ij} = (UV^{-1})_{ij}$.
+This function, which is not an actual distance, has the advantage to be invariant by scaling factors and permutations of the matrices components.
+
+\begin{figure}
+\label{distrib}
+\centering
+\includegraphics[scale=0.9]{graph_distrib.pdf}\\
+\caption{Distributions used to test the algorithms.}
+\end{figure}
+
+\begin{figure}
+\label{distres}
+\centering
+%\resizebox{\textwidth}{!}{
+\input{Tableau_Nathan.txt}
+\vspace{3mm}
+\input{Tableau2.txt}%}
+\caption{\textbf{Left:} Average Amari divergence re-scaled by 100 obtained with the listed algorithms for random mix $m=2$ sources of size $N=250$ sampled with twelve different distributions. \textbf{Right:} Same measure for $m$ sources of size $N$ whose distributions are randomly selected among the twelve. The best results are in bold font. An X is put when a standard desktop computer could not compute the result.}
+\end{figure}
+
+\begin{figure}
+\label{imres}
+\centering
+\includegraphics[width=.74\textwidth]{../image_test/unmix4.png}
+\caption{Application of JADE algorithm to images separation. The first line presents the original sources, the second one the mix and the last one the estimations.}
+\end{figure}
 
 %% \begin{figure}\begin{center}
 %% \hspace{-.8cm}\begin{mygraph}{xmin=0, xmax=100, %
