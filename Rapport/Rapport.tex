@@ -128,18 +128,9 @@ The \textbf{correlation}:
   &=&\Kl{\zpbig2 P(Y)^{\zD G}}{P(Y)^{\zD P\wedge\zD G}}\\
   &=& \displaystyle\frac 12\log\frac{\det\zp{\mathrm{Diag}(\Sigma_Y)}}{\det\zp{\Sigma_Y}}.
 \end{array}\end{equation}
+
 \begin{figure}\centering
-\begin{tikzpicture}[xscale=5, yscale=4, zvar/.style={line width = 1}, zdis/.style={scale=1}, zindic/.style={scale=.8}, zindict/.style={sloped, scale=.8}]
-  \draw[zvar](0,-.3) .. controls (.1,0) and (0,.8) .. node[zindict, anchor=north]{Correlation} node[zindic, anchor=west]{$\zZ CP$} (-.1,1) node[anchor=0, scale=1.4]{$\zD G$};
-  \draw[zvar](-.3,0) .. controls (0,.1) and (.7,0) .. node[pos=.54, zindict, anchor=north]{Marginal Gaussianity} node[pos=.54, zindic, anchor=south]{$\sum_i\zZ G{P_i}$} (1,-.1) node[anchor=130, scale=1.4]{$\zD P$};
-  \draw (.8,.9) node[anchor=south west,zdis]{$P$} .. controls (.6,.9) and (.1,.75) .. node[zindict, anchor=-70]{Gaussianity} node[zindic, anchor=110]{$\zZ GP$} (-.02,.7) node[anchor=east,zdis]{$P^{\zD G}$};
-  \draw (-.01,.65) -- (.04,.66) -- (.03,.72);
-  \draw (.8,.9) .. controls (.85,.7) and (.9,.2) .. node[zindict, anchor=south]{Dependence} node[zindic, anchor=east]{$\zZ IP$} (.8,-.05) node[anchor=north,zdis]{$P^{\zD P}$};
-  \draw (.75,-.035) -- (.765,.025) -- (.82,.01);
-  \draw (.8,.9) .. controls (.7,.6) and (.05,.04) .. node[zindic,rotate=38,scale=.8, anchor=south,pos=.45] {$\Kl P{P^{\zD P\wedge\zD G}}$} (.037,.037);
-\node[anchor=north east,zdis] at (.05,.04) {$P^{\zD G\wedge \zD P}$};
-\foreach \x/\y in{.8/.9,.04/.04,.8/-.045,-.02/.7}{\draw[fill,shift={(\x,\y)}, xscale=.80] (0,0) circle (.013);}
-\end{tikzpicture}  
+\includegraphics{figure_tikz/theory_info.pdf}
 \caption{Representation of a distribution $P$ and the different projections on the exponential families $\zD P$ and $\zD G$. On the paths between the distributions are the quantities associated to the Kullback-Leibler divergence between those distributions.}\label{fig:pythagorean}
 \end{figure}
 
@@ -147,7 +138,14 @@ Using the Pythagorean theorem and the two decompositions of $\Kl P{P^{\zD P\wedg
 \begin{equation}
         \zZ IY + \sum_i\zZ G{Y_i} = \zZ GY + \zZ CY.
 \end{equation}
+Because the non gaussianity is invariant under invertible affine transforms, minimising the mutual independence according to $W$ is equivalent to minimise $\zZ CY - \sum_i\zZ G{Y_i}$. We can then define a set of contrast function, for $\alpha\geq 0$:
+\begin{equation}
+  \phi_\alpha(Y) = \alpha \zZ CY - \sum_i\zZ G{Y_i}.
+\end{equation}
+
 For more information see~\cite{cardoso2003}.
+
+%% --------- ---- -  -     ICA and Maximum Likelihood     -  - ---- --------- %%
 
 \subsection{ICA and Maximum Likelihood}
 As presented in~\cite{hyvarinen2000}, it is possible to consider ICA as a maximum likelihood problem linked to the infomax principle. 
@@ -213,7 +211,7 @@ This function, which is not an actual distance, has the advantage to be invarian
 \begin{figure}
 \label{distrib}
 \centering
-\includegraphics[scale=0.9]{graph_distrib.pdf}\\
+\includegraphics[scale=0.9]{figure_tikz/graph_distrib.pdf}\\
 \caption{Distributions used to test the algorithms.}
 \end{figure}
 
@@ -223,7 +221,7 @@ This function, which is not an actual distance, has the advantage to be invarian
 %\resizebox{\textwidth}{!}{
 \input{Tableau_Nathan.txt}
 \vspace{3mm}
-\input{Tableau2.txt}%}
+\input{Tableau2.txt}
 \caption{\textbf{Left:} Average Amari divergence re-scaled by 100 obtained with the listed algorithms for random mix $m=2$ sources of size $N=250$ sampled with twelve different distributions. \textbf{Right:} Same measure for $m$ sources of size $N$ whose distributions are randomly selected among the twelve. The best results are in bold font. An X is put when a standard desktop computer could not compute the result.}
 \end{figure}
 
