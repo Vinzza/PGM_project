@@ -2,7 +2,11 @@
 \def\bar#1#2{\hbox to #1\textwidth{\hss#2\hss}}
 \def\fbar{\bfseries}
 \begin{tabular}{|c|cccc|}\hline
-\bar{.05}{}&\bar{.15}{JADE}&\bar{.1}{HJ}&\bar{.1}{FastICA}&\bar{.1}{Kernel ICA}\\\hline
+\bar{.05}{}&
+\bar{.08}{JADE}&
+\bar{.08}{HJ}&
+\bar{.1}{FastICA}&
+\bar{.12}{Kernel ICA}\\\hline
 1&\foo{5.67}{6.37}{6.51}{\fbar3.35}{2.72}{2.29}{3.96}{1.37}
 2&\foo{9.47}{8.15}{11.54}{\fbar5.11}{3.78}{3.96}{5.33}{1.90}
 3&\foo{6.76}{\fbar6.74}{8.39}{10.55}{3.23}{2.81}{3.54}{3.03}\hline

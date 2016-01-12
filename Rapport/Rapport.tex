@@ -20,6 +20,9 @@
 \newcommand{\zD}{\mathcal}
 \newcommand{\Ng}[2]{\mathcal{N}\zp{#1,\:#2}}
 
+% Mettre en valeur un résultat (pour pouvoir changer de style sans avoir à se taper l'intégralité du tex)
+\newcommand{\zmev}[1]{\textbf{#1}}
+
 \tikzset{
   zplot/.style={opacity=.8}
 }
@@ -62,13 +65,13 @@ This paper is dedicated to the study of Independent Component Analysis. We inten
 The general Independent Component Analysis problem can be formalised this way:
 Suppose we have some random variables $x\in\zR^p$ which correspond to
 a mix of some primitive sources $s\in\zR^n$. The aim is to extract
-from $x$ every source $s_i$. To do so, we will suppose here that:
+from $x$ every source $s_i$. Evidently, we will only be able to recover $s$ up to a scaling factor and a permutation of the component. To do so, we will suppose here that:
 \zitemize{
 \item[--] the sources are independents.
 \item[--] the mix is linear and instantaneous
 \item[--] at most one source has a Gaussian distribution.
 }
-We define:
+We formally define:
 \begin{equation}
   x = A s \ \ \mbox{and} \ \ y = W x,
 \end{equation}
@@ -77,9 +80,7 @@ estimation of the sources. The goal is then to find a matrix $W$ that
 maximise a certain measure of independence of $y$.
 
 As a measure of independence, we consider, for theoretical purpose,
-the mutual information:\begin{equation}
-  \zZ IY = \int_{\zR^p} P(Y) \log\frac{P(Y)}{\Pi_i P_i(Y_i)} \zdx Y.
-\end{equation}
+the mutual information, defined in equation \ref{eqn:def_I}.
 However, as it is too hard to compute, we consider other contrast functions, invariant by permutation, scaling on coordinates and maximal for independent ones.
 
 
@@ -87,42 +88,32 @@ However, as it is too hard to compute, we consider other contrast functions, inv
 
 \subsection{Information Theory}
 \label{infth}
-Let $X\in\zR^n$ be a random variable, we note $P\zp{X}$ his density and $\Sigma_X$ his covariance matrix.
+Let $X\in\zR^n$ be a random variable, we note $P(X)$ his density and $\Sigma_X$ his covariance matrix. In the following, we will write only $P$ when it's possible. Besides we will note $\zZ HX$ the entropy of $X$, defined as $\zesp{-\log P(X)}$.
+
 \znl
 
 In the space of measures, let $\zD G$ be the manifold of Gaussian distributions, $\zD P$ the manifold of ``product'' distributions and $\zD P\wedge\zD G$ the manifold of Gaussian ``product'' distributions. Note that these manifolds are exponential families.
-
-The main advantage of this geometric point of view is that the Kullback-Leibler divergence allows the notion of projection on exponential families. The projection of $P$ on the family $\zD E$ is defined as the vector of $\zD E$ that minimise the divergence to $P$. We write this projection~$P^{\zD E}$.
-\znl
-
-Then, we define:
-
-The \textbf{Kullback--Leibler divergence} distribution from $Q$ to $P$:
+In this space, we can define the \zmev{Kullback--Leibler divergence} from $Q$ to $P$ :
 \begin{equation}
   \Kl PQ = \int_{\zR^n} P(x) \log\frac{P(x)}{Q(x)} \zdx x.
 \end{equation}
+The main advantage of this geometric point of view is that the Kullback-Leibler divergence allows the notion of projection on exponential families.
+The projection of $P$ on the family $\zD E$, noted $P^{\zD E}$, is defined as the vector of $\zD E$ that minimise the divergence to $P$.
+This projection verifies the Pythagorean theorem and thus we will be able to find relation between the main quantities defined with this divergence.
+Schematised in the figure \ref{fig:pythagorean}, the main quantities are:
 
-The \textbf{entropy}:\begin{equation}
-  \zZ HP = - \int_{\zR^n} P(x)\log P(x) \zdx x.
-\end{equation}
+-- The \zmev{mutual information}:
+\begin{equation}\label{eqn:def_I}\begin{array}{rcl}
+  \zZ IY &=&\displaystyle \Kl {\zpbig2 P(Y)}{\Pi_i P_i(Y_i)} \quad=\quad \Kl {\zpbig2 P(Y)}{P(Y)^{\zD P}}\\
+&=&\displaystyle \sum_i \zZ H{\zpbig1P(Y_i)} - \zZ H{\zpbig1P(Y)}
+\end{array}\end{equation}
 
-The \textbf{mutual information}:
-\begin{equation}
-  \zZ IY = \Kl {\zpbig2 P(Y)}{\Pi_i P_i(Y_i)} = \Kl {\zpbig2 P(Y)}{P(Y)^{\zD P}}.
-\end{equation}
+-- The \zmev{non-gaussianity}:
+\begin{equation}\begin{array}{rcl}
+  \zZ GY &=& \Kl{Y}{\Ng{\zesp Y}{\Sigma_Y}\zpbig2} \quad=\quad \Kl {\zpbig2 P(Y)}{P(Y)^{\zD G}}.
+\end{array}\end{equation}
 
-The \textbf{negentropy}:
-\begin{equation}
-  \mathrm{G}_n(Y) = \zZ H{\Ng{\zesp Y}{\Sigma_Y}\zpbig2}-\zZ HY= \zZ H{P(Y)^{\zD G}}-\zZ H{P(Y)}.
-\end{equation}
-
-
-The \textbf{non-gaussianity}:
-\begin{equation}
-  \zZ GY = \Kl{Y}{\Ng{\zesp Y}{\Sigma_Y}\zpbig2} = \Kl {\zpbig2 P(Y)}{P(Y)^{\zD G}}.
-\end{equation}
-
-The \textbf{correlation}:
+-- The \zmev{correlation}:
 \begin{equation}\begin{array}{rcl}
   \zZ CY &=& \displaystyle\Kl{\Ng{\zesp Y}{\Sigma_Y}\zpbig2}{\Ng{\zesp Y}{\mathrm{Diag}\:\Sigma_Y}}\\
   &=&\Kl{\zpbig2 P(Y)^{\zD G}}{P(Y)^{\zD P\wedge\zD G}}\\
@@ -138,12 +129,11 @@ Using the Pythagorean theorem and the two decompositions of $\Kl P{P^{\zD P\wedg
 \begin{equation}
         \zZ IY + \sum_i\zZ G{Y_i} = \zZ GY + \zZ CY.
 \end{equation}
-Because the non gaussianity is invariant under invertible affine transforms, minimising the mutual independence according to $W$ is equivalent to minimise $\zZ CY - \sum_i\zZ G{Y_i}$. We can then define a set of contrast function, for $\alpha\geq 0$:
+Because the non-gaussianity is invariant under invertible affine transforms, minimising the mutual independence according to $W$ is equivalent to minimise $\zZ CY - \sum_i\zZ G{Y_i}$. We can then define a set of contrast function, for $\alpha\geq 0$:
 \begin{equation}
   \phi_\alpha(Y) = \alpha \zZ CY - \sum_i\zZ G{Y_i}.
 \end{equation}
-
-For more information see~\cite{cardoso2003}.
+Let's remark that the FastICA algorithm is based on the minimisation of the marginal non-gaussianity (so $\alpha = 0$). For more information see~\cite{cardoso2003}.
 
 %% --------- ---- -  -     ICA and Maximum Likelihood     -  - ---- --------- %%
 
@@ -151,13 +141,29 @@ For more information see~\cite{cardoso2003}.
 As presented in~\cite{hyvarinen2000}, it is possible to consider ICA as a maximum likelihood problem linked to the infomax principle. 
 With the previously introduced notations, the log-likelihood is defined as:
 \begin{equation}
-L = \sum_t \sum_i \log f_i(w_i^Tx(t))+T\log(|det(W)|)
+L = \sum_{t=1}^{T} \sum_i \log f_i\zp{\ztr{w_i}x(t)}+T.\log\zp{|det(W)|},
 \end{equation}
-Where $f_i$ is the density function of $s_i$. The expectation of this likelihood is:
-\begin{equation}
-\mathbb{E}[L] = \sum_i \mathbb{E}[\log f_i(w_i^Tx(t))]+\log(|det(W)|)
+where $f_i$ is the density function of $s_i$. Then, if we suppose $f_i$ be the actual distribution of $y_i(t) = \ztr{w_i}x(t)$, the expectation of this likelihood can be written :
+\begin{equation}\begin{array}{rcl}
+\zesp{L} &=& \displaystyle\log\zp[b]{\zpbig1\mathrm{det}W}+\sum_i \zesp{\log f_i\zp{\ztr{w_i}x(t)}}\\
+&=& \zZ H{WX} - \zZ HX - \displaystyle\sum_i\zesp{-\log P\zp{y_i(t)}},
+\end{array}\end{equation}
+which is, up to a constant $\zZ HX$, the Mutual Independence given equation \ref{eqn:def_I}.
+
+\subsection{Performance measure}
+
+Because we can only recover the matrix $W$ up to scaling factors and a permutation of the component, we can't norms to evaluate the separation matrix.
+We use here the ``Amari divergence'', written in equation \ref{eqn:amari}, which gives a criterion of proximity between two matrices.
+
+If $U$ and $V$ are two $n$-by-$n$ matrices, the Amari error is defined by:
+\begin{equation} \label{eqn:amari}
+  d(U,V) = 
+  \frac 1{2n} \sum_i \zp{\frac{\sum_j|a_{ij}|}{\underset j\max\: |a_{ij}|}-1}
++\frac 1{2n}\sum_j \zp{\frac{\sum_i|a_{ij}|}{\underset i\max\: |a_{ij}|}-1},
 \end{equation}
-In the case where $f_i$ is the actual distribution of $w_i^Tx(t)$, the first term becomes $-\sum_i H(w_i^Tx(t))$ which is one of the independence measures listed in~\ref{infth}.
+with $a_{ij} = (UV^{-1})_{ij}$.
+This function, which is not an actual distance, has the advantage to have the invariant wanted: invariant by scaling factors and permutations matrix multiplication.
+
 
 %% ------- -- -- -  -                                      -  - -- -- --------%%
 %---- -- -  -                     Algorithmes                      -  - -- ----%
@@ -199,81 +205,70 @@ where the $\rho_i$ are the kernel canonical correlations between the observation
 %%-------- -- -- -  -                                      -  - -- -- ------- %%
 
 \section{Results}
-\paragraph{Performance measure}
-The ``Amari divergence'', equation \ref{eqn:amari}, gives a criterion of proximity between two matrices, to evaluate the performance of an algorithm.
-If $U$ and $V$ are two $n$-by-$n$ matrices, the Amari error is defined by:
-\begin{equation} \label{eqn:amari}
-	d(U,V) = \frac{1}{2n}\sum\limits_{i=1}^n \left(\frac{\sum\limits_{j=1}^n|a_{ij}|}{\max_j |a_{ij}|}-1 \right)+\frac{1}{2n}\sum\limits_{j=1}^n \left(\frac{\sum\limits_{i=1}^n|a_{ij}|}{\max_i |a_{ij}|}-1 \right)
-\end{equation}
-with $a_{ij} = (UV^{-1})_{ij}$.
-This function, which is not an actual distance, has the advantage to be invariant by scaling factors and permutations of the matrices components.
+
+\subsection{Experimental design for simulated data}
 
 \begin{figure}
-\label{distrib}
 \centering
 \includegraphics[scale=0.9]{figure_tikz/graph_distrib.pdf}\\
-\caption{Distributions used to test the algorithms.}
+\caption{Distributions used to test the algorithms.\label{fig:distrib}}
 \end{figure}
 
-\begin{figure}
-\label{distres}
+In order to test the different algorithms, we use a pipeline from \cite{bach2003kernel}.
+We took some distributions, whose density are shown figure \ref{fig:distrib}.
+We sampled $N$ times a certain amount $m$ of them to create the initial signal $s$. Note that we may choose a given distribution multiple times.
+Then, we picked a random bounded matrix $A$, used to mix the signals.
+Then, we preprocess the mixed signal $Y$, by multiply it by a whitening matrix $P$.
+
+At this point, we applied the ICA algorithms to the signal $Y = PAs$, which gave us the separation matrix $W$.
+Eventually we evaluated the performance of the algorithm by taking the ``Amari divergence'' between $W$ and the real separation matrix $W_0 = \zp{PA}^{-1}$.
+
+Note that the whitening matrix $P$ correspond to the inverse of the square root of the covariance matrix of $X=As$.
+
+\subsection{Results on experimental data}
+
+The results are showed in the table \ref{tab:resultats}.
+
+For the left table, we chose two sources following the same distribution.
+The proximity of the distribution $8$, $9$ and $12$ to the gaussian, prohibited
+for more than one source, explain the overall bad results obtained for this
+distributions.
+
+For the right table, we varied the number of distribution $m$ and the number of
+samples $N$, with some randomly selected distributions (one distribution is
+potentially selected multiple times). We can see here the influence of
+computational cost. The Kernel ICA and the HJ algorithm couldn't manage to
+achieve results as the number of sources grows. Let's remark that the poor results of the HJ algorithm on $4$ sources can be explain by the non convergence of this algorithm.
+
+
+Overall, kernel ICA and HJ algorithm perform better than the two other, but
+need a lot of computation time.
+
+\begin{table}
 \centering
-%\resizebox{\textwidth}{!}{
-\input{Tableau_Nathan.txt}
-\vspace{3mm}
-\input{Tableau2.txt}
-\caption{\textbf{Left:} Average Amari divergence re-scaled by 100 obtained with the listed algorithms for random mix $m=2$ sources of size $N=250$ sampled with twelve different distributions. \textbf{Right:} Same measure for $m$ sources of size $N$ whose distributions are randomly selected among the twelve. The best results are in bold font. An X is put when a standard desktop computer could not compute the result.}
-\end{figure}
+\hbox to \textwidth{\hspace{-.5cm}
+\resizebox{.45\textwidth}{2cm}{\input{Tableau_Nathan.txt}}\hss
+\resizebox{.55\textwidth}{2cm}{\input{Tableau2.txt}}
+}
+\caption{\textbf{Left:} Average Amari divergence re-scaled by 100 obtained with the listed algorithms for random mix $m=2$ sources of size $N=250$ sampled with twelve different distributions. \textbf{Right:} Same measure for $m$ sources of size $N$ whose distributions are randomly selected among the twelve. The best results are in bold font. An X is put when a standard desktop computer could not compute the result.\label{tab:resultats}}
+\end{table}
+
+\subsection{Results on real data}
+
+We took $4$ images and mixed them with a random bounded matrix.
+The $4$ mixed images were given to the ICA algorithm and the $4$ separate images were normalise and display.
+All the images for the JADE algorithm are showed in the figure \ref{fig:res_images}.
+
+The results are quite good, even if we can still see some artefacts of the other images. Let's remark that, as expected, the recovered images are permuted compared to the initial ones and that $2$ of them are in negative mode.
+
+%% --------- ---- -  -               figure               -  - ---- --------- %%
+
 
 \begin{figure}
-\label{imres}
 \centering
 \includegraphics[width=.74\textwidth]{../image_test/unmix4.png}
-\caption{Application of JADE algorithm to images separation. The first line presents the original sources, the second one the mix and the last one the estimations.}
+\caption{Application of JADE algorithm to images separation. The first line presents the original sources, the second one the mix and the last one the estimations.\label{fig:res_images}}
 \end{figure}
-
-%% \begin{figure}\begin{center}
-%% \hspace{-.8cm}\begin{mygraph}{xmin=0, xmax=100, %
-%%                 ymin=-1, ymax=1, %
-%%                 sizex=5, sizey=2.5}%
-%%                 {nomx=Sources, nomy=}%
-%%                 {0,50,100}{-1,-.5,...,1.05}
-%%   \draw[zplot, red] plot file {data/init_sources_2.txt};
-%%   \draw[zplot, green!70!black] plot file {data/init_sources_3.txt};
-%%   \draw[zplot, blue] plot file {data/init_sources_1.txt};
-%% \end{mygraph}\hspace{-1cm}
-%% \begin{mygraph}{xmin=0, xmax=100, %
-%%                 ymin=-1, ymax=1, %
-%%                 sizex=5, sizey=2.5}%
-%%                 {nomx=FastICA, nomy=}%
-%%                 {0,50,100}{-1,-.5,...,1.05}
-%%   \draw[zplot, red] plot file {data/init_fast_1.txt};
-%%   \draw[zplot, green!70!black] plot file {data/init_fast_2.txt};
-%%   \draw[zplot, blue] plot file {data/init_fast_3.txt};
-%% \end{mygraph}
-
-%% \begin{mygraph}{xmin=0, xmax=100, %
-%%                 ymin=-1, ymax=1, %
-%%                 sizex=5, sizey=2.5}%
-%%                 {nomx=HJ, nomy=}%
-%%                 {0,50,100}{-1,-.5,...,1.05}
-%%   \draw[zplot, red] plot file {data/init_hj_2.txt};
-%%   \draw[zplot, green!70!black] plot file {data/init_hj_1.txt};
-%%   \draw[zplot, blue] plot file {data/init_hj_3.txt};
-%% \end{mygraph}\hspace{-1cm}
-%% \begin{mygraph}{xmin=0, xmax=100, %
-%%                 ymin=-1, ymax=1, %
-%%                 sizex=5, sizey=2.5}%
-%%                 {nomx=JADE, nomy=}%
-%%                 {0,50,100}{-1,-.5,...,1.05}
-%%   \draw[zplot, red] plot file {data/init_jade_3.txt};
-%%   \draw[zplot, green!70!black] plot file {data/init_jade_1.txt};
-%%   \draw[zplot, blue] plot file {data/init_jade_2.txt};
-%% \end{mygraph}
-%% \vspace{-.2cm}
-%% \caption{Results of the main ICA algorithms on simulated data. Each colour corresponds to a signal. The ``Sources'' graph shows the unmixed signals and the other ones the results of the algorithms. \label{fig:res}}
-%% \end{center}\end{figure}
-
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                               FIN DU DOCUMENT                                %

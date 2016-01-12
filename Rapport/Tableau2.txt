@@ -1,14 +1,20 @@
 \def\foo#1#2#3#4{#1&#2&#3&#4\\}
 \def\bar#1#2{\hbox to #1\textwidth{\hss#2\hss}}
 \def\fbar{\bfseries}
+\def\fobar{\vrule height .35cm width .0cm depth .15cm}
 \begin{tabular}{|cc|cccc|}\hline
-\bar{.05}{m}&\bar{.05}{N}&\bar{.1}{JADE}&\bar{.1}{HJ}&\bar{.1}{FastICA}&\bar{.15}{Kernel ICA}\\\hline
-2&250&\foo{8.35}{7.56}{10.45}{\fbar6.06}
-&1000&\foo{3.66}{3.39}{4.42}{\fbar2.38}\hline
-4&1000&\foo{11.88}{58.52}{12.20}{\fbar9.72}
-&4000&\foo{5.33}{83.07}{5.80}{\fbar3.86}\hline
-8&2000&\foo{19.75}{X}{19.40}{\fbar19.15}
-&4000&\foo{13.06}{X}{13.29}{\fbar9.71}\hline
-16&4000&\foo{31.81}{X}{\fbar28.92}{X}
-&8000&\foo{\fbar20.56}{X}{27.89}{X}\hline
+\fobar{}\bar{.03}{m}&
+\bar{.05}{N}&
+\bar{.1}{JADE}&
+\bar{.05}{HJ}&
+\bar{.08}{FastICA}&
+\bar{.14}{Kernel ICA}\\\hline
+\fobar{}2&250&\foo{8.35}{7.56}{10.45}{\fbar6.06}
+\fobar{}&1000&\foo{3.66}{3.39}{4.42}{\fbar2.38}\hline
+\fobar{}4&1000&\foo{11.88}{58.52}{12.20}{\fbar9.72}
+\fobar{}&4000&\foo{5.33}{83.07}{5.80}{\fbar3.86}\hline
+\fobar{}8&2000&\foo{19.75}{X}{19.40}{\fbar19.15}
+\fobar{}&4000&\foo{13.06}{X}{13.29}{\fbar9.71}\hline
+\fobar{}16&4000&\foo{31.81}{X}{\fbar28.92}{X}
+\fobar{}&8000&\foo{\fbar20.56}{X}{27.89}{X}\hline
 \end{tabular}
