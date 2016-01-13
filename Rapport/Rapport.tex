@@ -153,7 +153,7 @@ which is, up to a constant $\zZ HX$, the Mutual Independence given equation \ref
 \subsection{Performance measure}
 
 Because we can only recover the matrix $W$ up to scaling factors and a permutation of the component, we can't norms to evaluate the separation matrix.
-We use here the ``Amari divergence'', written in equation \ref{eqn:amari}, which gives a criterion of proximity between two matrices.
+We use here the ``Amari divergence'' \cite{amari1996new}, written in equation \ref{eqn:amari}, which gives a criterion of proximity between two matrices.
 
 If $U$ and $V$ are two $n$-by-$n$ matrices, the Amari error is defined by:
 \begin{equation} \label{eqn:amari}
@@ -171,10 +171,11 @@ This function, which is not an actual distance, has the advantage to have the in
 
 \section{Algorithms for ICA}
 \subsection{Hérault and Jutten (HJ) algorithm}
-This method is based on the neural network principle.
+This method is one of the first algorithm to perform ICA. It is based on the neural network principle.
 We write $W = \zp{I_n+\widetilde W}^{-1}$ and for a pair of given functions $\zp{f,\:g}$, we adapt $\widetilde W$ as follows:\begin{equation}
 \widetilde W_{ij} = f(y_i) g(y_j).
 \end{equation}
+See \cite{jutten1991blind} for more information.
 
 %% --------- ---- -  -            -----------             -  - ---- --------- %%
 
@@ -286,10 +287,16 @@ We applied the different algorithm to a mix of sound signal, as the problem of I
 %                               FIN DU DOCUMENT                                %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
 
+\newpage
+\begin{center}
+  \textcolor{red}{\Huge\bfseries !! ATTENTION !!}\par
+  Il manque les références de : \cite{bell1995information}, \cite{cardoso1997infomax}, \cite{comon1994independent} et \cite{LeBorgne}.\par
+  \textcolor{red}{\Huge\bfseries !! ATTENTION !!}
+\end{center}
 
 \bibliographystyle{alpha}
 \bibliography{Biblio}{}
-\nocite{*}
+%\nocite{*}
 
 \label{lastpage}
 
