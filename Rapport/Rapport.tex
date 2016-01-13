@@ -179,19 +179,27 @@ We write $W = \zp{I_n+\widetilde W}^{-1}$ and for a pair of given functions $\zp
 %% --------- ---- -  -            -----------             -  - ---- --------- %%
 
 \subsection{Jade algorithm}
-Several methods are based on the cumulants. The goal here is to annul all the cross cumulants of order $4$.
+Several methods are based on the cumulants. The goal here is to annul all the cross cumulants of order $4$, which would assure a certain ``independence'' up to the order $4$.
 Thus, the idea is to diagonalize the cumulant tensor which is equivalent to minimise the following contrast function:
 \begin{equation}
   c\zp{x} = \sum_{i,k,l}\zp[b]{\zop{Cum}{x_i,x_i^*,x_k,x_l}}^2.
 \end{equation}
+See \cite{cardoso1989source} for more information about the JADE algorithm.
 
 %% --------- ---- -  -            -----------             -  - ---- --------- %%
 
 \subsection{FastICA algorithm}
-The FastICA algorithm is based on the information theory. The goal here is to maximise the marginal non-gaussianity on the whitened data, relying on a non linear quadratic function $f$ with the following rule:\begin{equation}
+This algorithm is based on the maximisation of the marginal non-gaussianity, which is approximated here as follow:
+\begin{equation}\label{eqn:fast_prob}
+  \zZ G{Y_i} \simeq C^{te}\times\zp{\zesp{f(Y_i)} - \zesp{f(\Ng 01)}}^2,
+\end{equation}
+with $C^{te}$ a positive constant and $f$ a non linear quadratic function.
+In our experiments, we used $f(x) = \frac{x^4}4$. But it is possible to use $f(x) = \log \cosh x$ or $f(x) = \exp\zp{-\frac{x^2}2}$ as well.
+The problem is now an optimisation problem consisting of maximising the expression in equation \ref{eqn:fast_prob} according to $W$ under the constraint of non correlation of $y = Wx$. Using a Fixed-point algorithm, we could derive the following iteration step:
+\begin{equation}
   \widetilde W_{t+1} = \zesp{X.\ztr{f(\ztr{W_t}X)}} - \zesp{f''(\ztr{W_t}X)}W_t,
 \end{equation}
-with $W_t$ the normalise vector of $\widetilde W_t$. In our experiments, we used $f(x) = \frac{x^4}4$. But it is possible to use $f(x) = \log \cosh x$ or $f(x) = \exp\zp{-\frac{x^2}2}$ as well.
+with $W_t$ the normalise vector of $\widetilde W_t$. See \cite{hyvarinen99} for more information.
 
 \subsection{Kernel ICA algorithm}
 Given a reproducing kernel Hilbert space $\mathcal{F}$, this algorithm seeks to minimize the Kernel Generalized Variance defined as:
@@ -260,6 +268,10 @@ The $4$ mixed images were given to the ICA algorithm and the $4$ separate images
 All the images for the JADE algorithm are showed in the figure \ref{fig:res_images}.
 
 The results are quite good, even if we can still see some artefacts of the other images. Let's remark that, as expected, the recovered images are permuted compared to the initial ones and that $2$ of them are in negative mode.
+
+\znl
+
+We applied the different algorithm to a mix of sound signal, as the problem of ICA is often use as a solution for the cocktail party problem. The overall performance were good and the small artefact that was left were covered by the small noise of the initial sounds.
 
 %% --------- ---- -  -               figure               -  - ---- --------- %%
 
