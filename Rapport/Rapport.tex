@@ -46,7 +46,6 @@
 \today\zal\vspace{.3cm}\zal
 \zligne\endgroup
 
-\tableofcontents
 
 \vspace{1cm}\zligne
 
@@ -167,26 +166,24 @@ This function, which is not an actual distance, has the advantage to have the in
 
 \section{Algorithms for ICA}
 \subsection{Hérault and Jutten (HJ) algorithm}
-This method is one of the first algorithm to perform ICA. It is based on the neural network principle.
+This method is one of the first algorithm to perform ICA, see \cite{jutten1991blind}. It is based on the neural network principle.
 We write $W = \zp{I_n+\widetilde W}^{-1}$ and for a pair of given functions $\zp{f,\:g}$, we adapt $\widetilde W$ as follows:\begin{equation}
 \widetilde W_{ij} = f(y_i) g(y_j).
 \end{equation}
-See \cite{jutten1991blind} for more information.
 
 %% --------- ---- -  -            -----------             -  - ---- --------- %%
 
 \subsection{Jade algorithm}
-Several methods are based on the cumulants. The goal here is to annul all the cross cumulants of order $4$, which would assure a certain ``independence'' up to the order $4$.
+JADE algorithm, see \cite{cardoso1989source} is the most famous algorithm based on the cumulants. The goal here is to annul all the cross cumulants of order $4$, which would assure a certain ``independence'' up to the order $4$.
 Thus, the idea is to diagonalize the cumulant tensor which is equivalent to minimise the following contrast function:
 \begin{equation}
   c\zp{x} = \sum_{i,k,l}\zp[b]{\zop{Cum}{x_i,x_i^*,x_k,x_l}}^2.
 \end{equation}
-See \cite{cardoso1989source} for more information about the JADE algorithm.
 
 %% --------- ---- -  -            -----------             -  - ---- --------- %%
 
 \subsection{FastICA algorithm}
-This algorithm is based on the maximisation of the marginal non-gaussianity, which is approximated here as follow:
+This algorithm introduced by Hyvarinen~\cite{hyvarinen99} is based on the maximisation of the marginal non-gaussianity, which is approximated here as follow:
 \begin{equation}\label{eqn:fast_prob}
   \zZ G{Y_i} \simeq C^{te}\times\zp{\zesp{f(Y_i)} - \zesp{f(\Ng 01)}}^2,
 \end{equation}
@@ -196,7 +193,7 @@ The problem is now an optimisation problem consisting of maximising the expressi
 \begin{equation}
   \widetilde W_{t+1} = \zesp{X.\ztr{f(\ztr{W_t}X)}} - \zesp{f''(\ztr{W_t}X)}W_t,
 \end{equation}
-with $W_t$ the normalise vector of $\widetilde W_t$. See \cite{hyvarinen99} for more information.
+with $W_t$ the normalise vector of $\widetilde W_t$.
 
 \subsection{Kernel ICA algorithm}
 Given a reproducing kernel Hilbert space $\mathcal{F}$, this algorithm seeks to minimize the Kernel Generalized Variance defined as:
@@ -220,34 +217,32 @@ where the $\rho_i$ are the kernel canonical correlations between the observation
 \end{figure}
 
 In order to test the different algorithms, we use a pipeline from \cite{bach2003kernel}.
-We took some distributions, whose density are shown figure \ref{fig:distrib}.
-We sampled $N$ times a certain amount $m$ of them to create the initial signal $s$. Note that we may choose a given distribution multiple times.
-Then, we picked a random bounded matrix $A$, used to mix the signals.
-Then, we preprocess the mixed signal $Y$, by multiply it by a whitening matrix $P$.
+We select some distributions, whose density are shown figure \ref{fig:distrib},
+sample $N$ times a certain amount $m$ of them to create the initial signal $s$. Note that we may choose a given distribution multiple times.
+Then, we sample a random bounded matrix $A$, used to mix the signals and perform withening.
 
-At this point, we applied the ICA algorithms to the signal $Y = PAs$, which gave us the separation matrix $W$.
-Eventually we evaluated the performance of the algorithm by taking the ``Amari divergence'' between $W$ and the real separation matrix $W_0 = \zp{PA}^{-1}$.
+At this point, we apply the ICA algorithms to the signal $Y = PAs$, which gave us the separation matrix $W$.
+Eventually we evaluate the performance of the algorithm by computing the ``Amari divergence'' between $W$ and the real separation matrix $W_0 = \zp{PA}^{-1}$.
 
-Note that the whitening matrix $P$ correspond to the inverse of the square root of the covariance matrix of $X=As$.
+Note that the whitening matrix $P$ corresponds to the inverse of the square root of the covariance matrix of $X=As$.
 
 \subsection{Results on experimental data}
 
 The results are showed in the table \ref{tab:resultats}.
 
-For the left table, we chose two sources following the same distribution.
+First, two sources following the same distribution are mixed.
 The proximity of the distribution $8$, $9$ and $12$ to the gaussian, prohibited
-for more than one source, explain the overall bad results obtained for this
+for more than one source, explains the overall bad results obtained for this
 distributions.
 
-For the right table, we varied the number of distribution $m$ and the number of
-samples $N$, with some randomly selected distributions (one distribution is
+Then, the number of distribution $m$ and the number of samples $N$ vary and distributions are randomly selected (one distribution is
 potentially selected multiple times). We can see here the influence of
-computational cost. The Kernel ICA and the HJ algorithm couldn't manage to
-achieve results as the number of sources grows. Let's remark that the poor results of the HJ algorithm on $4$ sources can be explain by the non convergence of this algorithm.
+computational cost. The Kernel ICA and the HJ algorithms couldn't manage to
+achieve results as the number of sources grew. Let us note that the poor results of the HJ algorithm on $4$ sources can be explained by the non convergence of this algorithm.
 
 
-Overall, kernel ICA and HJ algorithm perform better than the two other, but
-need a lot of computation time.
+Overall, kernel ICA and HJ algorithms perform better than the two others, but
+require a higher computation time.
 
 \begin{table}
 \centering
@@ -268,7 +263,7 @@ The results are quite good, even if we can still see some artefacts of the other
 
 \znl
 
-We applied the different algorithm to a mix of sound signal, as the problem of ICA is often use as a solution for the cocktail party problem. The overall performance were good and the small artefact that was left were covered by the small noise of the initial sounds.
+Finally, we checked the different algorithms on a mix of sound signals, as ICA is often motivated by the "cocktail party problem".
 
 %% --------- ---- -  -               figure               -  - ---- --------- %%
 
