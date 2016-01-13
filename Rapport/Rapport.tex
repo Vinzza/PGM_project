@@ -57,10 +57,10 @@
 \section{Problem statement}
 \subsection{Introduction}
 
-The general Independent Component Analysis problem can be formalised this way:
+Reintroducing the notations used in~\cite{LeBorgne}, the general Independent Component Analysis problem can be formalised this way:
 Suppose we have some random variables $x\in\zR^p$ which correspond to
 a mix of some primitive sources $s\in\zR^n$. The aim is to extract
-from $x$ every source $s_i$. Evidently, we will only be able to recover $s$ up to a scaling factor and a permutation of the component. To do so, we will suppose here that:
+from $x$ every source $s_i$. It appears that $s$ can only be recovered up to a scaling factor and a permutation of the components. To do so, we suppose here that:
 \zitemize{
 \item[--] the sources are independents.
 \item[--] the mix is linear and instantaneous
@@ -72,7 +72,7 @@ We formally define:
 \end{equation}
 where $A$ is the mixing matrix, $W$ the separation matrix and $y$ the
 estimation of the sources. The goal is then to find a matrix $W$ that
-maximise a certain measure of independence of $y$.
+maximises a certain measure of independence of $y$.
 
 As a measure of independence, we consider, for theoretical purpose,
 the mutual information, defined in equation \ref{eqn:def_I}.
@@ -83,7 +83,7 @@ However, as it is too hard to compute, we consider other contrast functions, inv
 
 \subsection{Information Theory}
 \label{infth}
-Let $X\in\zR^n$ be a random variable, we note $P(X)$ his density and $\Sigma_X$ his covariance matrix. In the following, we will write only $P$ when it's possible. Besides we will note $\zZ HX$ the entropy of $X$, defined as $\zesp{-\log P(X)}$.
+Let $X\in\zR^n$ be a random variable, we note $P(X)$ its density and $\Sigma_X$ its covariance matrix. In the following, we write only $P$ when it is defined. Besides we note $\zZ HX$ the entropy of $X$, defined as $\zesp{-\log P(X)}$.
 
 \znl
 
@@ -94,8 +94,8 @@ In this space, we can define the \zmev{Kullback--Leibler divergence} from $Q$ to
 \end{equation}
 The main advantage of this geometric point of view is that the Kullback-Leibler divergence allows the notion of projection on exponential families.
 The projection of $P$ on the family $\zD E$, noted $P^{\zD E}$, is defined as the vector of $\zD E$ that minimise the divergence to $P$.
-This projection verifies the Pythagorean theorem and thus we will be able to find relation between the main quantities defined with this divergence.
-Schematised in the figure \ref{fig:pythagorean}, the main quantities are:
+This projection verifies the Pythagorean theorem and implies relations between the main quantities defined with this divergence.
+Schematized in the figure \ref{fig:pythagorean}, the main quantities are:
 
 -- The \zmev{mutual information}:
 \begin{equation}\label{eqn:def_I}\begin{array}{rcl}
