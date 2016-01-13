@@ -1,4 +1,5 @@
 function res = mixture_gaussian( nb, prob, mu, cov )
+% Sample the given mixture of gaussian
 
 prob = prob ./ sum(prob);
 cumprob = cumsum(prob(:));
@@ -16,10 +17,5 @@ for i = 1:length(prob)
     res(r==i) = dum(r==i);
 end
 
-% % Old version
-% for k = 1:nb
-%     i = sum( rand >= cumprob ) + 1;
-%     res(k) = random('normal', mu(i), cov(i));
-% end
 
 end

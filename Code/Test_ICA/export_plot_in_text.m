@@ -1,4 +1,5 @@
 function export_plot_in_text( X, Y, name )
+% Export a plot in a text format.
 
     fid = fopen( ['Export_Data/' name], 'w' );
     for i = 1:length(X)

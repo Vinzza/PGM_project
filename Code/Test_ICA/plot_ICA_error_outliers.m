@@ -1,6 +1,5 @@
 function [v_err] = plot_ICA_error_outliers( source_size, nb_source, ICAfun, ...
                                              nb_iter, type, param, outliers_nbs )
-%
 
     v_err = zeros(size(outliers_nbs));
 

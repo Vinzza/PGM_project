@@ -101,7 +101,7 @@ Schematised in the figure \ref{fig:pythagorean}, the main quantities are:
 -- The \zmev{mutual information}:
 \begin{equation}\label{eqn:def_I}\begin{array}{rcl}
   \zZ IY &=&\displaystyle \Kl {\zpbig2 P(Y)}{\Pi_i P_i(Y_i)} \quad=\quad \Kl {\zpbig2 P(Y)}{P(Y)^{\zD P}}\\
-&=&\displaystyle \sum_i \zZ H{\zpbig1P(Y_i)} - \zZ H{\zpbig1P(Y)}
+&=&\displaystyle \sum_i \zZ H{\zpbig1P(Y_i)} - \zZ H{\zpbig1P(Y)}.
 \end{array}\end{equation}
 
 -- The \zmev{non-gaussianity}:
@@ -201,7 +201,7 @@ with $W_t$ the normalise vector of $\widetilde W_t$. See \cite{hyvarinen99} for 
 \subsection{Kernel ICA algorithm}
 Given a reproducing kernel Hilbert space $\mathcal{F}$, this algorithm seeks to minimize the Kernel Generalized Variance defined as:
 \begin{equation}
-	\widehat{\delta}_{\mathcal{F}}=-\frac{1}{2}\log \underset{i}{\prod}(1-\rho_i^2)
+	\widehat{\delta}_{\mathcal{F}}=-\frac{1}{2}\log \underset{i}{\prod}(1-\rho_i^2),
 \end{equation}
 where the $\rho_i$ are the kernel canonical correlations between the observations components, obtained with computations over the observations Gram matrices.
 

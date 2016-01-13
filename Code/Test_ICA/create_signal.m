@@ -28,7 +28,11 @@ function signal = create_signal( nb_source, source_size, type, param )
 
 end
 
-% LOCAL FUNCTION
+
+%% ------- -- -- -  -                                      -  - -- -- --------%%
+%---- -- -  -                   LOCAL FUNCTIONS                    -  - -- ----%
+%%-------- -- -- -  -                                      -  - -- -- ------- %%
+
 
 function s = my_gaussian_mixture( m, nb )
 % the letter correspond to the indexes in the Jordan and Bach paper.

@@ -1,4 +1,5 @@
 function res = mixture_gaussian_plot(x, prob, mu, cov )
+% Sample the pdf of the given mixture of gaussian
 
   prob = prob ./ sum(prob);
 

@@ -14,11 +14,6 @@ function [B, mdS] = hj(X, k, varargin)
 %   'g' = t.^3          the 'g' independence forcing function
 %   'h' = t             the 'h' independence forcing function
 
-%
-% David Gleich
-% CS 152 - Neural Networks
-% 12 December 2003
-%
 
 % dimensionality assessment
 [m n] = size(X);
